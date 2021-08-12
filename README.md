@@ -8,7 +8,7 @@
      - green light will be "on" only when vehicles are in the lane.
      - add more time to lanes when high conjession occurs
      - periodical processing of traffic lanes
-    
+             
 ### Working Model
   - Application written in Python and running in the Windows environment 
   - Vehicle presence in lanes is detected by sensors and web cams
@@ -50,27 +50,26 @@
   which are JSON based data structures.
   
 ### System Initialization Table 
-  This is the main table (sit1.tx) which specifies information about other tables  
- 
-"videom": "videosm1.txt", 
-"videop": "videosp1.txt", 
-"tlc": "videotlc1.txt", 
-"comps": "c1": ["COM3", 9600,5,2] 
-
-  
- 
-   videom - Lane definition table which defines sensor and web cam  information  
-   videop - Priority Assign Table, which is used to assign more time to lanes    
-            When high congestion occurs in lanes 
-   tlc    - Traffic Light Control table where traffic light data is specified  
-   comps  - Arduino board info 
-            c1   - board id. There can be more than one board connected sensors and LEDs  
-            COM3 - the port this board connects to the application running machine  
-            9600 - baud rate, data transfer rate of application running machine serial port  
-                   and Arduino board 
-            5    - time out will occur if you are unable to connect with Arduino within this 
-                   time period (miliseconds)   
-            2    - wait time to connect with arudino (miliseconds)  
+  This is the main table (sit1.tx) which specifies information about other tables
+     
+  "videom": "videosm1.txt",   
+  "videop": "videosp1.txt",   
+  "tlc": "videotlc1.txt",   
+  "comps": "c1": ["COM3", 9600,5,2] 
+    
+  "videom" -  Lane definition table which defines sensor and web cam  information  
+  "videop" -  Priority Assign Table, which is used to assign more time to lanes  
+              When high congestion occurs in lanes   
+  "tlc"    -  Traffic Light Control table where traffic light data is specified  
+  "comps"  -  Arduino board info   
+              board id -  There can be more than one board connected sensors and LEDs   
+              COM3 - the port this board connects to the application running machine   
+              9600 -  baud rate, data transfer rate of application running machine serial port  
+                      and Arduino board 
+              5 - time out will occur if you are unable to connect with Arduino within this  
+                  time period (miliseconds ) 
+              2 - wait time to connect with arudino (miliseconds) 
+            
             
 ### Lane Definition Table
    "videom": "videosm1.txt"  
