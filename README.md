@@ -1,90 +1,88 @@
 ## Smart Trafic Light Control System
 
-### Objective :
-   ffff
-  To control traffic lights efficiently based on traffic congestion.
-How it works
-Time sharing based but efficiency is achieved by considering the following 
-techniques
--green light will be "on" only when vehicles are in the lane.
--add more time to lanes when high conjession occurs
--periodical processing of traffic lanes 
-Working Model
--Application written in Python and running in the Windows environment -Vehicle presence in lanes is detected by sensors and web cams
--Sensors are connected to the Arduino board and the Arduino board is connected to
-application windows machine via serial port. Application will 
-The Arduino communicates with an application running on the Arduino to read sensor data.
-The application will determine the presence of traffic by receiving values of 
-sensor data.
--Web cams are directly connected to windows machines and show images of 
-Vehicle movements in lanes are detected and processed by Python/OpenCV
--LEDs are used as traffic lights which are connected to an arduio board and 
-The application communicates with Arduino to on/off LEDs.
--
-Requirements
-A model based on this system has been tested under the following conditions.
-Windows 10 home
--Python 3.9.6
--OpenCV 4.5.2
--PySerial 3.5
--Arduino components
-Arduino GUI 1.8.15 Arduino UNO board
-TCRT 5000 reflective opticle IR sensors 
-LEDs-red, yellow and green for each lane.
-Resistors 10k-1, 220-1 for each sensor 
-220-1 for each LED
-Breadboard, Jumper wires,
--Web Cams 
-Run Application
--py videom.py sit1.txt
-The System Initualization Table is passed as the first parameter (sit1.txt).
-before starting the application.
--tfrcntl.ino arudino file under the tfrcntl folder must be uploaded to 
-Arduino board using Arduino GUI 
--All sensors, web cams, and LEDs must be checked.
-System Tables
-Configuration information is given to the application using tables.
-which are JSON based data structures.
+### Objective : To control traffic lights efficiently based on traffic congestion. 
+
+### How it works 
+   Time sharing based but efficiency is achieved by considering the following 
+   techniques 
+     - green light will be "on" only when vehicles are in the lane.
+     - add more time to lanes when high conjession occurs
+     - periodical processing of traffic lanes
+    
+### Working Model
+  - Application written in Python and running in the Windows environment 
+  - Vehicle presence in lanes is detected by sensors and web cams
+  - Sensors are connected to the Arduino board and the Arduino board is connected to
+    application windows machine via serial port. Application will 
+    The Arduino communicates with an application running on the Arduino to read sensor data.
+    The application will determine the presence of traffic by receiving values of 
+    sensor data.
+  - Web cams are directly connected to windows machines and show images of 
+    Vehicle movements in lanes are detected and processed by Python/OpenCV
+  - LEDs are used as traffic lights which are connected to an arduio board and 
+    application communicates with Arduino to on/off LEDs.
+
+### Requirements
+   A model based on this system has been tested under the following conditions.
+   - Windows 10 home
+   - Python 3.9.6
+   - OpenCV 4.5.2
+   - PySerial 3.5
+   - Arduino components
+       - Arduino GUI 1.8.15 Arduino UNO board
+       - TCRT 5000 reflective opticle IR sensors 
+       - LEDs red, yellow and green for each lane.
+       - Resistors 10k-1, 220 ohms-1 for each sensor 
+         220 ohms-1 for each LED
+       - Breadboard, Jumper wires,
+   - Web Cams 
+    
+### Run Application
+   - py videom.py sit1.txt 
+     The System Initualization Table is passed as the first parameter (sit1.txt).  
+   - tfrcntl.ino arudino application must be active in arduino board  
+     This file is under the tfrcntl folder must have been uploaded to   
+     Arduino board using Arduino GUI  
+   - All sensors, web cams, and LEDs must be checked.
+   
+### System Tables
+  Configuration information is given to the application using tables.
+  which are JSON based data structures.
   
-System Initialization Table
-This is the main table (sit1.tx) which specifies information about other 
-tables
+### System Initialization Table 
+  This is the main table (sit1.tx) which specifies information about other tables  
  
-"videom": "videosm1.txt",
-"videop": "videosp1.txt",
-"tlc": "videotlc1.txt",
-"comps": "c1": ["COM3", 9600,5,2]
+"videom": "videosm1.txt", 
+"videop": "videosp1.txt", 
+"tlc": "videotlc1.txt", 
+"comps": "c1": ["COM3", 9600,5,2] 
+
+  
  
-videom-Lane definition table which defines sensor and web cam 
-information
-videop-Priority Assign Table, which is used to assign more time to lanes 
-When high congestion occurs in lanes,
-tlc-Traffic Light Control table where traffic light data is
-specified
-comps-Arduino board info
-c1-board id. There can be more than one board connected
-sensors and LEDs
-COM3-is the port this board connects to the application 
-running machine
-9600-baud rate, data transfer rate of application 
-running machine serial port and Arduino board
-A 5-time out will occur if you are unable to connect with 
-Arduino within this time period (miliseconds) 2-wait time to connect with arudino (miliseconds)
-Lane Definition Table
-"videom": "videosm1.txt" 
-Four lanes are considered in this demonstrated model.
-and two lanes are managed by sensors and two lanes are 
-managed by web cams
-"lane": 1, "type": "s", "prtyid": ["lane1-1"], "maxt": 5, 
-"skipc": 0, "debug": "Y", "parms": "A0", 
-"comport": "c1", "sensorid": "s1", "rdelay": 1, "rtime": 200, 
-"srtm": 150,
-"lane": 2, "type": "c", "maxt": 5, "skipc": 0, "debug": "Y", 
-. "parms": "cam": 0, "camid": "cam1", "camtype": "", 
-"detectarea": [360,230,200,250], "mincarea": 1500, 
-"rdelay": 0.1, "rtime": 1, "viewcam": 1
-lane-lane id 
-'s' for sensor managed lane, 'c' for web cam managed lane
+   videom - Lane definition table which defines sensor and web cam  information  
+   videop - Priority Assign Table, which is used to assign more time to lanes    
+            When high congestion occurs in lanes 
+   tlc    - Traffic Light Control table where traffic light data is specified  
+   comps  - Arduino board info 
+            c1   - board id. There can be more than one board connected sensors and LEDs  
+            COM3 - the port this board connects to the application running machine  
+            9600 - baud rate, data transfer rate of application running machine serial port  
+                   and Arduino board 
+            5    - time out will occur if you are unable to connect with Arduino within this 
+                   time period (miliseconds)   
+            2    - wait time to connect with arudino (miliseconds)  
+            
+### Lane Definition Table
+   "videom": "videosm1.txt"  
+   Four lanes are considered in this demonstrated model. And two lanes are managed by sensors 
+   and two lanes are managed by web cams 
+   { "lane": 1, "type": "s", "prtyid": ["lane1-1"], "maxt": 5, "skipc": 0, "debug": "Y", 
+     "parms": { "A0", "comport": "c1", "sensorid": "s1", "rdelay": 1, "rtime": 200, "srtm": 150 } ,
+   { "lane": 2, "type": "c", "maxt": 5, "skipc": 0, "debug": "Y","parms": { "cam": 0, "camid": "cam1", 
+     "camtype": "", "detectarea": [360,230,200,250], "mincarea": 1500, "rdelay": 0.1, "rtime": 1, "viewcam": 1 }
+     
+   lane -lane id 
+   type - 's' for sensor managed lane, 'c' for web cam managed lane
 This lane is a priority lane, i.e. more time will be 
 Congestion occurs and this info is defined in 
 table specified in the 'videop' parm of system initialization 
