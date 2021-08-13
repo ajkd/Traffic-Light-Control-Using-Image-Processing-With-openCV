@@ -10,9 +10,6 @@ To control traffic lights efficiently based on traffic congestion.
    - add more time to lanes when high conjession occurs
    - periodical processing of traffic lanes ( less congested lanes )
              
-
-[Detail Disscussion of this project](readme.pdf) 
-
 <a href="https://www.youtube.com/watch?v=SNN4s4HEaW4&t=219s&ab_channel=ShraddhaTV" target="_blank"><img src="image.png" alt="IMAGE ALT TEXT HERE" width="340" height="180" border="10" /></a>
 
 ### Working Model
@@ -120,3 +117,70 @@ managed by web cams
               Desirable values for cam no, detectarea, mincarea, rtime and rdelay can be found out by  
               running chkcam.py.           
            
+#### Priority Assign Table  
+"videop":"videosp1.txt"  
+
+     { "prtyid":"lane1-1", "type":"s", "pt":20, "maxt":2, "debug":"Y",  
+       "parms": { "sensor":"A3",  "comport":"c1", "sensorid":"s3", "rdelay":1, "rtime":50, "srtm":50 } }  
+     
+     prtyid - Value specified in the "prtyid" parm of a lane entry in the lane definition table.  
+     pt     - If traffic is detected this amount of time (in seconds) is added to the value in 
+              the "maxt" parm of the lane entry of the lane definition table  
+            
+     Other parameters are same as of lane definition table.
+
+
+#### Traffic Light Control Table  
+"tlc":"videotlc1.txt"  
+
+    { "lane":1,  
+      "red":[ ["c1", [3,"O",0], [4,"F",1000], [2,"O",0], [3,"F",0] ] ],  
+      "green":[ ["c1",[3,"O",0], [2,"F",1000], [4,"O",0], [3,"F",0] ] ]  
+    }  
+    
+    lane - lane id
+    red - When application need to light up for example red light of the lane 1 it will 
+          send Arduino board Id "c1" following message  
+          1) "On" LED connected to digital pin "3" nd wait zero milliseconds  
+              For example to light up yellow  
+          2) "Off" LED connected to digital pin "4" and wait 1000 milliseconds  
+              For example to off green  
+          3) "On" LED connected to digital pin "2" and wait zero milliseconds  
+              For example to light up red  
+          4) "Off" LED connected to digital pin "3"  and wait zero milliseconds  
+              For example to off yellow  
+    green - to light up green, same as red  
+    
+    { "lane":99,  
+      "red":[ ["c1", [2,"O",0], [5,"O",0], [8,"O",0], [11,"O",0] ] ]  
+    }  
+    lane '99' is a special lane, which is used by the system to set all red lights of lanes to "On"  
+    when system is start up. Here red LEDs of lanes are connected digital pins 2, 5, 8 and 11  
+    
+    
+### Test System
+After system is setup all the sensors, LEDs and web cams must be checked  
+
+#### py chksensor.py COM3 A0  
+To check a sensor connected to analog pin ( for ex. A0 ) of Arduino board connected to a   
+serial port ( for ex. COM3 ) of windows  Here desirable values for "srtm", "rtime" and "rdelay" can be found.  
+( by modifying chksensor.py program )  
+
+#### py chkled.py COM3 2
+To check LED connected to digital pin ( for ex. 2 ) 
+
+#### py chkcam.py 0
+To check Cam connected to windows machine ( for ex. cam 0 ).Here number assign to a cam by windows  
+and desirable values for "detectarea", "mincarea" parms of the lane entry of lane definition table  
+can be found ( by modifying chkcam.py program )  
+
+
+### Conclusion
+- This system is s single threaded and useful to control traffic in
+moderately congested traffic.
+- To achieve high efficiency and redundancy to handle high traffic lanes
+we may have to deploy more than one sensors/cams to monitor lanes.
+Such system will be multi threaded and we may have to deploy machine
+learning techniques to determine time for lanes by considering traffic on
+the lanes without allocating max times as in this model to achieve high
+efficiency.
