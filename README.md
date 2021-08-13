@@ -30,7 +30,7 @@ To control traffic lights efficiently based on traffic congestion.
    Model based on this System has been tested under following software/hardware environments  
    - Windows 10 home
    - Python 3.9.6
-   - OpenCV 4.5
+   - OpenCV 4.5.2
    - PySerial 3.5
    - Arduino components  
         - Arduino GUI 1.8.15  
