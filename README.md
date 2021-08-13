@@ -6,9 +6,9 @@ To control traffic lights efficiently based on traffic congestion.
 ### How this Model works 
    Time sharing based but efficiency is achieved by adopting following 
    techniques
-   - green light will be "on" only when vehicles are in the lane.
+   - green light will be "on" only when vehicles presence on the lane.
    - add more time to lanes when high conjession occurs
-   - periodical processing of traffic lanes
+   - periodical processing of traffic lanes ( less congested lanes )
              
 
 [Detail Disscussion of this project](readme.pdf) 
