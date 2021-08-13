@@ -10,4 +10,4 @@
      - periodical processing of traffic lanes
              
 
-
+[Detail Disscussion of this project](README.pdf)
