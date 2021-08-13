@@ -1,6 +1,7 @@
 ## Smart Trafic Light Control System
 
-### Objective : To control traffic lights efficiently based on traffic congestion. 
+### Objective :
+To control traffic lights efficiently based on traffic congestion. 
 
 ### How it works 
    Time sharing based but efficiency is achieved by considering the following 
