@@ -157,7 +157,7 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
       "red":[ ["c1", [2,"O",0], [5,"O",0], [8,"O",0], [11,"O",0] ] ]  
     }  
     lane '99' is a special lane, which is used by the system to set all red lights of lanes to "On"  
-    when system is start up. Here red LEDs of lanes are connected digital pins 2, 5, 8 and 11 of Arudino  
+    when system is start up. Here red LEDs of lanes are connected to  digital pins 2, 5, 8 and 11 of Arudino  
     board
     
     
