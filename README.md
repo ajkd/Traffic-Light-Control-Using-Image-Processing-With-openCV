@@ -40,6 +40,7 @@ To control traffic lights efficiently based on traffic congestion.
         - Resistors 10k - 1, 220 - 1 for each sensor, 220 - 1 for each LED  
         - Breadboard, Jumper wires 
 
+![Image of TCRT 5000](tcrt5000.jpeg)
 
 - Web Cams  
 
