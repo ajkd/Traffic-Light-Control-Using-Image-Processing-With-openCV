@@ -72,8 +72,7 @@ This is the main table (sit1.tx) which specifies information of other tables
            9600 - baud rate, data transfer rate of application running machine serial port and Arduino board  
            5    - time out will occur if unable to connect with Arduino within this time period ( milliseconds )  
            2    - wait time to connect with Arduino ( milliseconds )  
-
-#### Lane Definition Table
+Lane Definition Table
 "videom" : "videosm1.txt"  
 Four lanes are considered in this demonstrated model and two lanes are managed by sensors and two lanes are managed by web cams  
 
@@ -85,10 +84,11 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
              
       lane   - lane id  
       type   - 's' for sensor manage lane 'c' for web cam manage lane  
-      prtyid - for this lane is a priority lane i.e. more time will be allocated if concession occurs and  
-                this info is defined in table specified in 'videop' parm of system initialization table.  
+      prtyid -  priority id, to add more time to high congestion lanes.  
+                coresponding to this, entry in the priority Assign Table must be added  
       maxt   - maximum time allocated to lane in seconds  
-      skipc  - processing frequency, for example less congested lane can processed once in two cycle  
+      skipc  - processing frequency, for example less congested lane can processed once  
+               in two cycle  
       debug  - 'y' or 'n' if 'y' - application will print debug info on console  
       parms  -  
          For Sensors
