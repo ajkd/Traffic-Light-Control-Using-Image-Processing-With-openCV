@@ -143,7 +143,7 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
     lane - lane id
     red  - When application need to light up for example red light of the lane 1 it will 
            send Arduino board Id "c1" following message  
-           1) "On" LED connected to digital pin "3" nd wait for zero milliseconds  
+           1) "On" LED connected to digital pin "3" and wait for zero milliseconds  
                For example to on yellow  
            2) "Off" LED connected to digital pin "4" and wait for 1000 milliseconds  
                For example to off green  
