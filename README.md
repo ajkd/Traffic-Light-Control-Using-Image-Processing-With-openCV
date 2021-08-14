@@ -38,7 +38,9 @@ To control traffic lights efficiently based on traffic congestion.
         - TCRT 5000 reflective optical IR sensors  
         - LEDs - red, yellow and green for each lane  
         - Resistors 10k - 1, 220 - 1 for each sensor, 220 - 1 for each LED  
-        - Breadboard, Jumper wires  
+        - Breadboard, Jumper wires 
+
+
 - Web Cams  
 
 ### To Run Application
@@ -62,14 +64,14 @@ This is the main table (sit1.tx) which specifies information of other tables
     "comps":{"c1":["COM3",9600,5,2]}  
     }  
     videom - Lane Definition Table which defines sensor and web cam information  
-    videop - Priority Assign Table which is used assign more time to when high congested occurs to lanes  
-    tlc - Traffic Light Control table where traffic lights data are specified  
-    comps - Arduino board info  
-           c1 - board id, there can be more than one board connecting sensors and LEDs  
+    videop - Priority Assign Table which is used assign more time to when high congetsion occurs in lanes  
+    tlc    - Traffic Light Control table where traffic lights data are specified  
+    comps  - Arduino board info  
+           c1   - board id, there can be more than one board connecting sensors and LEDs  
            COM3 - is the port this board connects to application running machine  
            9600 - baud rate, data transfer rate of application running machine serial port and Arduino board  
-           5 - time out will occur if unable to connect with Arduino within this time period ( milliseconds )  
-           2 - wait time to connect with Arduino ( milliseconds )  
+           5    - time out will occur if unable to connect with Arduino within this time period ( milliseconds )  
+           2    - wait time to connect with Arduino ( milliseconds )  
 
 #### Lane Definition Table
 "videom" : "videosm1.txt"  
@@ -82,37 +84,38 @@ managed by web cams
         "parms": { "cam":0, "camid":"cam1", "camtype":" ", "detectarea":[360,230,200,250],  
         "mincarea":1500, "rdelay":0.1, "rtime":1, "viewcam":1 } }  
              
-      lane - lane id  
-      type - 's' for sensor manage lane 'c' for web cam manage lane  
+      lane   - lane id  
+      type   - 's' for sensor manage lane 'c' for web cam manage lane  
       prtyid - for this lane is a priority lane i.e. more time will be allocated if concession occurs and  
-      this info is defined in table specified in 'videop' parm of system initialization table.  
-      maxt - maximum time allocated to lane in seconds  
-      kipc - processing frequency, for example less congested lane can processed once in two cycle  
-      debug - 'y' or 'n' if 'y' - application will print debug info on console  
-      parms -  
+                this info is defined in table specified in 'videop' parm of system initialization table.  
+      maxt   - maximum time allocated to lane in seconds  
+      skipc  - processing frequency, for example less congested lane can processed once in two cycle  
+      debug  - 'y' or 'n' if 'y' - application will print debug info on console  
+      parms  -  
          For Sensors
-              sensor - Analog pin of the Arduino, sensor is connected to ex. A0  
+              sensor   - Analog pin of the Arduino, sensor is connected to ex. A0  
               sensorid - not relevant  
-              comport - Arduino board id this sensor is connected to which is defined in system  
-                        initialization table  
-              srtm - Min value read from sensor to determine traffic is present in the lane  
-              rtime - Time in milliseconds sensor should be read continuesly to determine if traffic is  
-                      presented in the lane  
-              rdelay - Time in milliseconds to wait before beginning reading cycle from sensor again  
+              comport  - Arduino board id this sensor is connected to which is defined in system  
+                         initialization table  
+              srtm     - Min value read from sensor to determine traffic is present in the lane  
+              rtime    - Time in milliseconds sensor should be read continuesly to determine if traffic is  
+                         presented in the lane  
+              rdelay   - Time in milliseconds to wait before beginning reading cycle from sensor again  
   
               Desirable values for srtm, rtime and rdelay can be found out by running chksensor.py  
               
          For Cams  
-              cam - Number ex. 0,1,2.. Windows will assign a number to a cam  
-              camid, camtype - Not relevant  
+              cam        - Number ex. 0,1,2.. Windows will assign a number to a cam  
+              camid      - Not relevant  
+              camtype    - Not relevant  
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
                            application should detect vehicles  
-              mincarea - To identify detected object as a vehicle and to drop other objects which may  
-                         presence in the video image frame, area detected of an object must be higher  
-                         than this value  
-              rtime, rdelay - Same as specified in sensor but specified in seconds  
+              mincarea   - To identify detected object as a vehicle and to drop other objects which may  
+                           presence in the video image frame, area detected of an object must be higher  
+                           than this value
               viewcam - 1 to show video cam frames on the console  
+              rtime, rdelay - Same as specified in sensor but specified in seconds  
               
               Desirable values for cam no, detectarea, mincarea, rtime and rdelay can be found out by  
               running chkcam.py.           
@@ -139,23 +142,24 @@ managed by web cams
     }  
     
     lane - lane id
-    red - When application need to light up for example red light of the lane 1 it will 
-          send Arduino board Id "c1" following message  
-          1) "On" LED connected to digital pin "3" nd wait zero milliseconds  
-              For example to light up yellow  
-          2) "Off" LED connected to digital pin "4" and wait 1000 milliseconds  
-              For example to off green  
-          3) "On" LED connected to digital pin "2" and wait zero milliseconds  
-              For example to light up red  
-          4) "Off" LED connected to digital pin "3"  and wait zero milliseconds  
-              For example to off yellow  
+    red  - When application need to light up for example red light of the lane 1 it will 
+           send Arduino board Id "c1" following message  
+           1) "On" LED connected to digital pin "3" nd wait zero milliseconds  
+               For example to light up yellow  
+           2) "Off" LED connected to digital pin "4" and wait 1000 milliseconds  
+               For example to off green  
+           3) "On" LED connected to digital pin "2" and wait zero milliseconds  
+               For example to light up red  
+           4) "Off" LED connected to digital pin "3"  and wait zero milliseconds  
+               For example to off yellow  
     green - to light up green, same as red  
     
     { "lane":99,  
       "red":[ ["c1", [2,"O",0], [5,"O",0], [8,"O",0], [11,"O",0] ] ]  
     }  
     lane '99' is a special lane, which is used by the system to set all red lights of lanes to "On"  
-    when system is start up. Here red LEDs of lanes are connected digital pins 2, 5, 8 and 11  
+    when system is start up. Here red LEDs of lanes are connected digital pins 2, 5, 8 and 11 of Arudino  
+    board
     
     
 ### Test System
