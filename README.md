@@ -84,8 +84,8 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
              
       lane   - lane id  
       type   - 's' for sensor manage lane 'c' for web cam manage lane  
-      prtyid -  priority id, to add more time to high congestion lanes.  
-                coresponding to this, entry in the priority Assign Table must be added  
+      prtyid - priority id, to add more time to high congestion lanes.  
+               coresponding to this, entry in the priority Assign Table must be added  
       maxt   - maximum time allocated to lane in seconds  
       skipc  - processing frequency, for example less congested lane can processed once  
                in two cycle  
