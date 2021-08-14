@@ -87,8 +87,8 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
       prtyid - priority id, to add more time to high congestion lanes.  
                coresponding to this, entry in the priority Assign Table must be added  
       maxt   - maximum time allocated to lane in seconds  
-      skipc  - processing frequency, for example less congested lane can processed once  
-               in two cycle  
+      skipc  - processing frequency, to skip processing less congested lanes for spcfied  
+               no of processing cycles
       debug  - 'y' or 'n' if 'y' - application will print debug info on console  
       parms  -  
          For Sensors
