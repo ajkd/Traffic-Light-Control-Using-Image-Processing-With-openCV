@@ -76,8 +76,7 @@ This is the main table (sit1.tx) which specifies information of other tables
 
 #### Lane Definition Table
 "videom" : "videosm1.txt"  
-Four lanes are considered in this demonstrated model and two lanes are managed by sensors and two lanes are  
-managed by web cams  
+Four lanes are considered in this demonstrated model and two lanes are managed by sensors and two lanes are managed by web cams  
 
       { "lane":1, "type":"s", "prtyid":["lane1-1"], "maxt":5, "skipc":0, "debug":"Y",  
         "parms": { "sensor":"A0 "comport":"c1", "sensorid":"s1", "rdelay":1, "rtime":200, "srtm":150 } },  
@@ -145,13 +144,13 @@ managed by web cams
     lane - lane id
     red  - When application need to light up for example red light of the lane 1 it will 
            send Arduino board Id "c1" following message  
-           1) "On" LED connected to digital pin "3" nd wait zero milliseconds  
-               For example to light up yellow  
-           2) "Off" LED connected to digital pin "4" and wait 1000 milliseconds  
+           1) "On" LED connected to digital pin "3" nd wait for zero milliseconds  
+               For example to on yellow  
+           2) "Off" LED connected to digital pin "4" and wait for 1000 milliseconds  
                For example to off green  
-           3) "On" LED connected to digital pin "2" and wait zero milliseconds  
-               For example to light up red  
-           4) "Off" LED connected to digital pin "3"  and wait zero milliseconds  
+           3) "On" LED connected to digital pin "2" and wait for zero milliseconds  
+               For example to on red  
+           4) "Off" LED connected to digital pin "3"  and wait for zero milliseconds  
                For example to off yellow  
     green - to light up green, same as red  
     
