@@ -31,7 +31,8 @@ To control traffic lights efficiently based on traffic congestion.
    - Windows 10 home
    - Python 3.9.6
    - OpenCV 4.5.2
-   - PySerial 3.5
+   - PySerial 3.5  
+   - Web Cams  
    - Arduino components  
         - Arduino GUI 1.8.15  
         - Arduino UNO board  
@@ -42,7 +43,6 @@ To control traffic lights efficiently based on traffic congestion.
 
 ![Image of TCRT 5000](tcrt5000.jpg)
 
-- Web Cams  
 
 ### To Run Application
 - py videom.py sit1.txt
