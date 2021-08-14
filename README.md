@@ -8,7 +8,7 @@ To control traffic lights efficiently based on traffic congestion.
    techniques
    - green light will be "on" only when vehicles presence on the lane.
    - add more time to lanes when high conjession occurs
-   - periodical processing of traffic lanes ( less congested lanes )
+   - periodical processing of traffic lanes
              
 <a href="https://www.youtube.com/watch?v=SNN4s4HEaW4&t=219s&ab_channel=ShraddhaTV" target="_blank"><img src="image.png" alt="IMAGE ALT TEXT HERE" width="340" height="180" border="10" /></a>
 
