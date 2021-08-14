@@ -38,7 +38,7 @@ To control traffic lights efficiently based on traffic congestion.
         - Arduino UNO board  
         - TCRT 5000 reflective optical IR sensors  
         - LEDs - red, yellow and green for each lane  
-        - Resistors 10k - 1, 220 - 1 for each sensor, 220 - 1 for each LED  
+        - Resistors 10k - 1, 220 ohms - 1 for each sensor, 220  ohms - 1 for each LED  
         - Breadboard, Jumper wires 
 
 ![Image of TCRT 5000](tcrt5000.jpg)
@@ -112,9 +112,9 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
                            application should detect vehicles  
               mincarea   - To identify detected object as a vehicle and to drop other objects which may  
-                           presence in the video image frame, area detected of an object must be higher  
-                           than this value
-              viewcam - 1 to show video cam frames on the console  
+                           presence in the video image frame, area ( contours of the image ) detected of  
+                           an object must be higher than this value  
+              viewcam    - 1 to show video cam frames on the console  
               rtime, rdelay - Same as specified in sensor but specified in seconds  
               
               Desirable values for cam no, detectarea, mincarea, rtime and rdelay can be found out by  
