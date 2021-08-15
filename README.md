@@ -83,7 +83,7 @@ This is the main table (sit1.tx) which specifies information of other tables
       prtyid - priority id, to add more time to high congestion lanes.  
                coresponding to this, entry in the priority Assign Table must be added  
       maxt   - maximum time allocated to lane in seconds  
-      skipc  - processing frequency, to skip processing less congested lanes for spcfied  
+      skipc  - processing frequency, to skip processing lanes (less congested) for spcfied  
                no of processing cycles
       debug  - 'y' or 'n' if 'y' - application will print debug info on console  
       parms  -  
