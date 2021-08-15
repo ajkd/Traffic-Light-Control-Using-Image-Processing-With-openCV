@@ -37,10 +37,8 @@ To control traffic lights efficiently based on traffic congestion.
         - Arduino GUI 1.8.15  
         - Arduino UNO board  
         - TCRT 5000 reflective optical IR sensors  
-        - LEDs - red, yellow and green for each lane  
-        - Resistors 10k - 1, 220 ohms - 1 for each sensor, 220  ohms - 1 for each LED  
-        - Breadboard, Jumper wires 
-
+        - LEDs as Trafic lights    
+        
 <img src="tcrt5000.jpg" alt="tcrt5000" width="400"/>  ![LED](led.png)
 
 ### To Run Application
@@ -72,9 +70,7 @@ This is the main table (sit1.tx) which specifies information of other tables
            9600 - baud rate, data transfer rate of application running machine serial port and Arduino board  
            5    - time out will occur if unable to connect with Arduino within this time period ( milliseconds )  
            2    - wait time to connect with Arduino ( milliseconds )  
-Lane Definition Table
-"videom" : "videosm1.txt"  
-Four lanes are considered in this demonstrated model and two lanes are managed by sensors and two lanes are managed by web cams  
+#### Lane Definition Table
 
       { "lane":1, "type":"s", "prtyid":["lane1-1"], "maxt":5, "skipc":0, "debug":"Y",  
         "parms": { "sensor":"A0 "comport":"c1", "sensorid":"s1", "rdelay":1, "rtime":200, "srtm":150 } },  
@@ -120,7 +116,6 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
               running chkcam.py.           
            
 #### Priority Assign Table  
-"videop":"videosp1.txt"  
 
      { "prtyid":"lane1-1", "type":"s", "pt":20, "maxt":2, "debug":"Y",  
        "parms": { "sensor":"A3",  "comport":"c1", "sensorid":"s3", "rdelay":1, "rtime":50, "srtm":50 } }  
@@ -133,7 +128,6 @@ Four lanes are considered in this demonstrated model and two lanes are managed b
 
 
 #### Traffic Light Control Table  
-"tlc":"videotlc1.txt"  
 
     { "lane":1,  
       "red":[ ["c1", [3,"O",0], [4,"F",1000], [2,"O",0], [3,"F",0] ] ],  
@@ -166,17 +160,13 @@ After system is setup all the sensors, LEDs and web cams must be checked
 
 #### py chksensor.py COM3 A0  
 To check a sensor connected to analog pin ( for ex. A0 ) of Arduino board connected to a   
-serial port ( for ex. COM3 ) of windows  Here desirable values for "srtm", "rtime" and "rdelay" can be found.  
-( by modifying chksensor.py program )  
+serial port ( for ex. COM3 ) of windows  Here desirable values for "srtm", "rtime" and "rdelay" can be found ( by modifying chksensor.py program )  
 
 #### py chkled.py COM3 2
 To check LED connected to digital pin ( for ex. 2 ) 
 
 #### py chkcam.py 0
-To check Cam connected to windows machine ( for ex. cam 0 ).Here number assign to a cam by windows  
-and desirable values for "detectarea", "mincarea" parms of the lane entry of lane definition table  
-can be found ( by modifying chkcam.py program )  
-
+To check Cam connected to windows machine ( for ex. cam 0 ).Here number assign to a cam by windows and desirable values for "detectarea", "mincarea" parms of the lane entry of lane definition table can be found ( by modifying chkcam.py program )  
 
 ### Conclusion
 - This system is s single threaded and useful to control traffic in
