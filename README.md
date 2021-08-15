@@ -27,7 +27,7 @@ To control traffic lights efficiently based on traffic congestion.
    and application communicates with Arduino to on/off LEDs 
 
 ### Requirements
-   Model based on this System has been tested under following software/hardware environments  
+   This Model has been built to work under following software/hardware environments  
    - Windows 10 home
    - Python 3.9.6
    - OpenCV 4.5.2
