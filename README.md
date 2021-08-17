@@ -10,7 +10,7 @@ To control traffic lights efficiently based on traffic congestion.
    - add more time to lanes when high conjession occurs
    - periodical processing of traffic lanes
              
-<a href="https://www.youtube.com/watch?v=SNN4s4HEaW4&t=219s&ab_channel=ShraddhaTV" target="_blank"><img src="image.png" alt="IMAGE ALT TEXT HERE" width="340" height="180" border="10" /></a>
+<a href="https://www.youtube.com/watch?v=AvqM5d6wanE" target="_blank"><img src="image.png" alt="TRAFFIC CONTROL" width="340" height="180" border="10" /></a>
 
 ### Working Model
  - Application written in Python and runs in windows environment
