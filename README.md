@@ -7,7 +7,7 @@ To control traffic lights efficiently based on traffic congestion.
    Time sharing based but efficiency is achieved by adopting following 
    techniques
    - green light will be "on" only when vehicles presence on the lane.
-   - add more time to lanes when high conjession occurs
+   - add more time to lanes when high congession occurs
    - periodical processing of traffic lanes
              
 <a href="https://www.youtube.com/watch?v=AvqM5d6wanE" target="_blank"><img src="image.png" alt="TRAFFIC CONTROL" width="340" height="180" border="10" /></a>
