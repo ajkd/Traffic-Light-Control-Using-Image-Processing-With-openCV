@@ -137,13 +137,13 @@ This is the main table (sit1.tx) which specifies information of other tables
     lane - lane id
     red  - When application need to light up for example red light of the lane 1 it will 
            send Arduino board Id "c1" following message  
-           1) "On" LED connected to digital pin "3" and wait for zero milliseconds  
+           1)  Wait for zero milliseconds and "On" LED connected to digital pin "3"  
                For example to on yellow  
-           2) "Off" LED connected to digital pin "4" and wait for 1000 milliseconds  
+           2)  Wait for 1000 milliseconds and "Off" LED connected to digital pin "4"   
                For example to off green  
-           3) "On" LED connected to digital pin "2" and wait for zero milliseconds  
+           3)  Wait for zero milliseconds and "On" LED connected to digital pin "2"   
                For example to on red  
-           4) "Off" LED connected to digital pin "3"  and wait for zero milliseconds  
+           4)  Wait for zero milliseconds and "Off" LED connected to digital pin "3"  
                For example to off yellow  
     green - to light up green, same as red  
     
