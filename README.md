@@ -106,9 +106,10 @@ This is the main table (sit1.tx) which specifies information of other tables
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
                            application should detect vehicles  
-              mincarea   - To identify detected object as a vehicle and to drop other objects which may  
-                           presence in the video image frame, area ( contours of the image ) detected of  
-                           an object must be higher than this value  
+              mincarea   - To filter objects and to identfy objects of interest  
+              maxcarea     Herer the video image area ( contours of the image ) must be higher than this 
+                           min value and less than this max value.
+                           if zero specified for min/max  no min/max value comparission will be done  
               viewcam    - 1 to show video cam frames on the console  
               rtime, rdelay - Same as specified in sensor but specified in seconds  
               
@@ -144,7 +145,12 @@ This is the main table (sit1.tx) which specifies information of other tables
            3)  Wait for zero milliseconds and "On" LED connected to digital pin "2"   
                For example to on red  
            4)  Wait for zero milliseconds and "Off" LED connected to digital pin "3"  
-               For example to off yellow  
+               For example to off yellow 
+               
+               There can be another entry as beleow
+               [3,"B",0,1000,3000 ] --> To Blink --> Wait 0 millseconds, "On" led connected to pin "3", 
+                                        wait 1000 milliseconds, "Off", wait 1000 miliseconds
+                                        do this on/off process untill 3000 milliseconds  elapsed     
     green - to light up green, same as red  
     
     { "lane":99,  
