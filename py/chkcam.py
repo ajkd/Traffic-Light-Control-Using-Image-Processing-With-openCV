@@ -29,33 +29,60 @@ while vidCap.isOpened():
     _,thresh = cv2.threshold(fgMask,50,255,cv2.THRESH_BINARY)
 
 
- #   sx=375
- #   sy=100
- #   sw=220
- #   sh=350
+#  pedestrian 
+    sx=90
+    sy=290
+    sw=425
+    sh=130
 
-    sx=360
-    sy=260
-    sw=150
-    sh=200 
+# lane 
+    sx1=325
+    sy1=75
+    sw1=150
+    sh1=175
+
+
+# lane
+#    sx=340
+#    sy=240
+#    sw=170
+#    sh=220 
 
     mincarea = 1400
+    maxcarea = 20000
 
     cv2.rectangle(frame,(sx,sy),(sx+sw,sy+sh),(0,0,255),2)
+    cv2.rectangle(frame,(sx1,sy1),(sx1+sw1,sy1+sh1),(0,0,255),2)
+
 
 
     conts,_=cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 
     for c in conts :
-      if cv2.contourArea(c) < mincarea :
+      ca = cv2.contourArea(c)
+      if ( mincarea > 0 and ca < mincarea ) or ( maxcarea > 0 and ca > maxcarea ) :
         continue
 
       x,y,w,h = cv2.boundingRect(c)
-      if x > sx and x + w < sx+sw and y  > sy and y + h < sy+sh:
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-        print('found')
+      OK=False
+      if x > sx and x + w < sx + sw :
+        OK=True
+
+      if OK :
+        OK=False
+        if y > sy and y < sy + sh :
+          OK=True
+        else :
+          if y < sy and y + h > sy :
+            OK=True
+
+
+      if OK :
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)   
+        print('Object Found -- Countour Area -- ', ca)
       else :
-        print('***************** not found')
+        print('**** Object Not Found -- Countour Area -- ', ca)
+
 
     cv2.imshow('Original Video', frame)
 

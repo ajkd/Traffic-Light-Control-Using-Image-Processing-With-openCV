@@ -1,4 +1,3 @@
-import numpy as np
 import cv2 as cv2
 import time
 import json
@@ -27,14 +26,18 @@ class video :
      j=1 
      t=''
      while j < len(p[i]) :
-       t = t + str(p[i][j][0]) + ',' + str(p[i][j][1]) + ',' + str(p[i][j][2]) + ',#' 
-       j+=1
+        k = 0
+        while ( k < len(p[i][j]) ) :
+          t = t + str(p[i][j][k]) + ','
+          k+=1
+        t = t + '#'
+        j+=1 
      t='#0#' + t + '\n'
      ard.write(t.encode('utf-8'))
      ard.flush()
      msgx=ard.read_until()
-     if not msgx[0] == '#' :
-       print( msgx.decode('utf-8') )
+#     if not msgx[0] == '#' :
+     print( msgx.decode('utf-8') )
      i +=1
      
  def prcs( self, type, maxt, debug, parms ):
@@ -53,6 +56,7 @@ class video :
     rtime = int(parms["rtime"])
     oarea=parms["detectarea"]
     mincarea = int(parms["mincarea"]) 
+    maxcarea = int(parms["maxcarea"]) 
 
     sx=int(oarea[0])
     sy=int(oarea[1])
@@ -82,8 +86,8 @@ class video :
     while cap.isOpened()  :
       start_time1 = time.time()
       noc += 1
-      nof = 0 
-      OOK = False
+      nof = 0
+      OK=False 
       while (  time.time() - start_time1 < rtime ):
         ret, frame2 = cap.read()
         if not ret : 
@@ -99,29 +103,37 @@ class video :
         
         conts,_=cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
         for c in conts :
-         if cv2.contourArea(c) < mincarea :
+          ca = cv2.contourArea(c)
+          if ( mincarea > 0 and ca < mincarea ) or ( maxcarea > 0 and ca > maxcarea ) :
             continue
-         x,y,w,h = cv2.boundingRect(c)
-         if x > sx and x + w < sx+sw and y  > sy and y + h < sy+sh:
-           cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-           OOK = True
+          x,y,w,h = cv2.boundingRect(c)
+          OOK = False
+          if x > sx and x + w < sx + sw :
+            if y > sy and y < sy + sh :
+              OOK=True
+            else :
+              if y < sy and y + h > sy :
+                OOK=True
+          if OOK :
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            OK=True 
 
         if viewcam > 0 :        
           cv2.imshow('cam - ' + str(cam), frame)
           if cv2.waitKey(1) & 0xFF == ord('q'):
             break 
 
-        if OOK :
+        if OK :
           if debug[0] == 'Y' :
-             print('Cycle No - ', noc, '  Frame No - ', nof, ' Object Detected' )
-          break
+             print('Cycle No - ', noc, '  Frame No - ', nof, ' Object/s Detected' )
+             break
         else :  
           if debug[0] == 'Y' :
-             print('Cycle No - ', noc, '  Frame No - ', nof, ' Object Not Detected' )
+             print('Cycle No - ', noc, '  Frame No - ', nof, ' Object/s Not Detected' )
            
         time.sleep(rdelay)
 
-      if OOK : 
+      if OK : 
          if time.time() - start_time > maxt :
             r=1
             break

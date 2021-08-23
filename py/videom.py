@@ -1,5 +1,4 @@
 from video2 import video
-import threading  
 import time
 import json
 import sys
