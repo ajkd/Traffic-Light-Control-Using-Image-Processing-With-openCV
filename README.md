@@ -42,8 +42,8 @@ To control traffic lights efficiently based on traffic congestion.
 <img src="tcrt5000.jpg" alt="tcrt5000" width="400"/>  ![LED](circuit.png)
 
 ### To Run Application
-- py videom.py sit1.txt 
-    System Initialization Table is passed as first parameter (sit1.txt)
+- py videom.py sit1.txt  
+     System Initialization Table is passed as first parameter (sit1.txt)
 - before starting the application
    - tfrcntl.ino Arduino file under “tfrcntl” folder must be uploaded to
      Arduino board using Arduino GUI
