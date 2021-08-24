@@ -1,4 +1,4 @@
-## Smart Trafic Light Control System
+## Trafic Control By Image Processing With openCV 
 
 ### Objective
 To control traffic lights efficiently based on traffic congestion. 
