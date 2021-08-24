@@ -90,7 +90,7 @@ This is the main table (sit1.tx) which specifies information of other tables
       parms  -  
          For Sensors
               sensor   - Analog pin of the Arduino, sensor is connected to ex. A0  
-              sensorid - not relevant  
+              sensorid - Id assign to sensor  
               comport  - Arduino board id this sensor is connected to which is defined in system  
                          initialization table  
               srtm     - Min value read from sensor to determine traffic is present in the lane  
@@ -102,7 +102,9 @@ This is the main table (sit1.tx) which specifies information of other tables
               
          For Cams  
               cam        - Number ex. 0,1,2.. Windows will assign a number to a cam  
-              camid      - Not relevant  
+              camid      - Id assign to Cam  
+                           If cam is used to monitor more than one lane same id must be specified when that lane's
+                           entry in the lane definition table
               camtype    - Not relevant  
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
@@ -151,7 +153,8 @@ This is the main table (sit1.tx) which specifies information of other tables
                There can be another entry as beleow
                [3,"B",0,1000,3000 ] --> To Blink --> Wait 0 millseconds, "On" led connected to pin "3", 
                                         wait 1000 milliseconds, "Off", wait 1000 miliseconds
-                                        do this on/off process untill 3000 milliseconds  elapsed     
+                                        do this on/off process untill 3000 milliseconds  elapsed  
+               This is usefull for pedestrian crossing definitions                         
     green - to light up green, same as red  
     
     { "lane":99,  
