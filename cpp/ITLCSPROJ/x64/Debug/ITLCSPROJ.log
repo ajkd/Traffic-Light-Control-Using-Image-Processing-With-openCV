@@ -1,4 +1,0 @@
-﻿  tlcmain.cpp
-c:\ajkd\cppproj\ITLCSPROJ\ITLCSPROJ\tlcmain.cpp(160,29): warning C4101: 'e': unreferenced local variable
-c:\ajkd\cppproj\ITLCSPROJ\ITLCSPROJ\tlcmain.cpp(440,15): warning C4244: 'initializing': conversion from 'time_t' to 'double', possible loss of data
-  ITLCSPROJ.vcxproj -> c:\ajkd\cppproj\ITLCSPROJ\x64\Debug\ITLCSPROJ.exe
