@@ -1,0 +1,6 @@
+{
+   "videom":"videosm1.txt",
+   "videop":"videosp1.txt",
+   "tlc":"videotlc1.txt",
+   "comps":{"c1":["COM3",9600,30,2]}
+}
