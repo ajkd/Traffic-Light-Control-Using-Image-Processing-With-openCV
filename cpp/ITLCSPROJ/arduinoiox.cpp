@@ -3,7 +3,7 @@
 #include "arduinoiox.h"
 using namespace std;
 
-Serial* SP;
+
 arduinoiox::arduinoiox() {}
 
 arduinoiox::~arduinoiox() {}
