@@ -5,7 +5,8 @@ using namespace std;
 
 class arduinoiox
 {
-
+private:
+	Serial* SP;
 public:
 
 	arduinoiox();
