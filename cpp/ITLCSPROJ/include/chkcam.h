@@ -3,5 +3,5 @@ class chkcam {
   public :
 	  chkcam();
 	  ~chkcam();
-	  int dimg(int camid);
+	  int dimg(int camid, char* cd );
 };
