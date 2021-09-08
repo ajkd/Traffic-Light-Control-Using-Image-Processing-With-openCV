@@ -1,0 +1,2 @@
+{"area":1,"detectarea":[90,290,425,130],"mincarea":1400,"maxcarea":20000 }
+{"area":2,"detectarea":[325,75,150,175],"mincarea":1400,"maxcarea":20000 }
