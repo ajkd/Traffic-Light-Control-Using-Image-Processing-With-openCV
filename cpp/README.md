@@ -17,6 +17,6 @@ ITLCSPROJ binary is generated using microsoft visual studio 2019 for windows 10 
   
   
 ### Check componenets
-   - check cam  --> ITLCSPROJ --cid=0
+   - check cam  --> ITLCSPROJ --cid=0 --file=chkcam.txt
    - check sensor --> ITLCSPROJ --port=com3 --sid=A0
    - check led --> ITLCSPROJ --port=com3 --lid=2 
