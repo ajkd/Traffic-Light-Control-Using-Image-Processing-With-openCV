@@ -26,7 +26,7 @@ def prcstrafic() :
   
       skipc[lid] = int(fjd["skipc"])
 
-      rv = v.prcs(fjd["type"], 0, fjd["debug"], fjd["parms"])
+      rv = v.prcs(fjd["lane"], fjd["type"], 0, fjd["debug"], fjd["parms"])
       if  rv > 0 : 
         v.onofftl(ld ['lg'+ str(fjd["lane"]) ])
         while True :
@@ -35,7 +35,7 @@ def prcstrafic() :
             t = t + prcspriority(fjd["prtyid"])
           except KeyError :
             pass
-          rv = v.prcs(fjd["type"], t, fjd["debug"], fjd["parms"])
+          rv = v.prcs(fjd["lane"], fjd["type"], t, fjd["debug"], fjd["parms"])
           if rv > 0 :
             j=i+1
             if j == len(fr) :
@@ -43,7 +43,7 @@ def prcstrafic() :
             f=False
             while True :
               fjdx = json.loads(fr[j])
-              rv = v.prcs(fjdx["type"], 0, fjdx["debug"], fjdx["parms"])
+              rv = v.prcs(fjdx["lane"], fjdx["type"], 0, fjdx["debug"], fjdx["parms"])
               if rv > 0 :   
                 v.onofftl(ld ['lr'+ str(fjd["lane"]) ])
                 i=j
@@ -72,7 +72,7 @@ def prcspriority(prtyid) :
       for i in range(len(fr1)) :
         fjd1= json.loads(fr1[i])
         if fjd1["prtyid"] == prtyid[j] :
-          p = v.prcs(fjd1["type"],fjd1["maxt"],fjd1["debug"],fjd1["parms"])
+          p = v.prcs(fjd1["lane"], fjd1["type"],fjd1["maxt"],fjd1["debug"],fjd1["parms"])
           print('p********',p)
           if int(p) > 0 :
             r = fjd1["pt"]
@@ -82,7 +82,6 @@ def prcspriority(prtyid) :
   return r
 
 parser = argparse.ArgumentParser(description='To Control Trafic Light System')  
-#parser.add_argument('--sit', default='sit.txt', help='System Initialization Table')
 parser.add_argument('sit', help='System Initialization Table', default='sit.txt')
 args = parser.parse_args()
 

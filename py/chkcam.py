@@ -1,13 +1,15 @@
 import cv2
 import argparse
+import json
 print(cv2.__version__)
 
 parser = argparse.ArgumentParser(description='To Check Web Cam')  
 parser.add_argument('cam', help='Cam No', default='1' )
+parser.add_argument('file', help='Data File Name', default='cam.txt' )
 args = parser.parse_args()
 
 vidCap = cv2.VideoCapture(int(args.cam))
-vehicle=0
+
 
 if not vidCap.isOpened():
     print('Unable to open: ')
@@ -15,46 +17,33 @@ if not vidCap.isOpened():
 
 ret, frame1 = vidCap.read()
 
-while vidCap.isOpened():
-    ret, frame2 = vidCap.read()
-    frame = frame2.copy()
 
-    if not ret : 
+with open( args.file, 'r' ) as f :
+  fr=list(f)
+
+while vidCap.isOpened():
+  ret, frame2 = vidCap.read()
+  frame = frame2.copy()
+
+  if not ret : 
       break
    
-    fgMask = cv2.absdiff(frame1,frame2)
+  fgMask = cv2.absdiff(frame1,frame2)
 
-    fgMask = cv2.cvtColor(fgMask,cv2.COLOR_BGR2GRAY)
+  fgMask = cv2.cvtColor(fgMask,cv2.COLOR_BGR2GRAY)
+  _,thresh = cv2.threshold(fgMask,50,255,cv2.THRESH_BINARY)
 
-    _,thresh = cv2.threshold(fgMask,50,255,cv2.THRESH_BINARY)
-
-
-#  pedestrian 
-    sx=90
-    sy=290
-    sw=425
-    sh=130
-
-# lane 
-    sx1=325
-    sy1=75
-    sw1=150
-    sh1=175
-
-
-# lane
-#    sx=340
-#    sy=240
-#    sw=170
-#    sh=220 
-
-    mincarea = 1400
-    maxcarea = 20000
-
-    cv2.rectangle(frame,(sx,sy),(sx+sw,sy+sh),(0,0,255),2)
-    cv2.rectangle(frame,(sx1,sy1),(sx1+sw1,sy1+sh1),(0,0,255),2)
-
-
+  i=0
+  while (i < len(fr) ) :
+    fjd= json.loads(fr[i])
+    sx=fjd["detectarea"][0]
+    sy=fjd["detectarea"][1]
+    sw=fjd["detectarea"][2]
+    sh=fjd["detectarea"][3]
+    mincarea=fjd["mincarea"]
+    maxcarea=fjd["maxcarea"]
+ 
+    cv2.rectangle(frame,(sx,sy),(sx+sw,sy+sh),(0,255,255),2)
 
     conts,_=cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
 
@@ -79,14 +68,15 @@ while vidCap.isOpened():
 
       if OK :
         cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)   
-        print('Object Found -- Countour Area -- ', ca)
+        print('Object Found Area -- ', fjd["area"], ' -- Countour Area -- ', ca)
       else :
-        print('**** Object Not Found -- Countour Area -- ', ca)
+        print('Object Not Found Area --', fjd["area"], ' -- Countour Area -- ', ca)
 
+    i+=1
 
-    cv2.imshow('Original Video', frame)
+  cv2.imshow('Original Video', frame)
 
-    if cv2.waitKey(1) & 0xFF==ord('q'):
+  if cv2.waitKey(1) & 0xFF==ord('q'):
         break
 
 cv2.destroyAllWindows()

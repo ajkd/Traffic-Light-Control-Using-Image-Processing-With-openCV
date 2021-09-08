@@ -9,6 +9,7 @@ class video :
  def __init__( self, cr ) : 
      self.myd = {}
      self.wcam = {}
+     self.wcamarea = {}
 
      x=cr["comps"]
      for k,v in x.items() :
@@ -36,17 +37,17 @@ class video :
      ard.write(t.encode('utf-8'))
      ard.flush()
      msgx=ard.read_until()
-#     if not msgx[0] == '#' :
-     print( msgx.decode('utf-8') )
+     if not msgx[0] == '#' :
+       print( 'ERROR - Invalid Message Read Traffic Light ON/OFF ', msgx.decode('utf-8') )
      i +=1
      
- def prcs( self, type, maxt, debug, parms ):
+ def prcs( self, lane, type, maxt, debug, parms ):
     if type[0]=='c':
-      return self.prcsvideo( maxt, debug, parms )
+      return self.prcsvideo( lane, maxt, debug, parms )
     else :
-      return self.prcssensor( maxt, debug, parms )
+      return self.prcssensor( lane, maxt, debug, parms )
   
- def prcsvideo( self, maxt, debug, parms ):
+ def prcsvideo( self, lane, maxt, debug, parms ):
 
     cam = parms["cam"]    
     camid = parms["camid"]
@@ -68,21 +69,28 @@ class video :
     r=0
 
     cap = 0 
-    frame1 = 0  
+    frame1 = 0
     try : 
       cap = self.wcam['cap' + camid]
       frame1 = self.wcam['frame' + camid]
+      try :
+        darea = self.wcamarea[ 'l' + camid + str(lane) ]
+      except KeyError :
+        self.wcamarea[ 'l' + camid + str(lane) ] = oarea
     except KeyError :
       cap = cv2.VideoCapture(cam)
       ret, frame1 = cap.read()
       if not ret : 
         cap.release()
         cv2.destroyAllWindows()
-        print ( '************* Error Reading Camera - ', cam )
+        print ( 'ERROR - Reading Camera - ', camid )
         return r
       self.wcam['cap' + camid] = cap
       self.wcam[ 'frame' + camid ] = frame1
+      self.wcamarea['l' + camid + str(lane) ] = oarea
+
     
+   
     while cap.isOpened()  :
       start_time1 = time.time()
       noc += 1
@@ -96,7 +104,19 @@ class video :
 
         nof += 1
         frame = frame2.copy()
-        cv2.rectangle(frame,(sx,sy),(sx+sw,sy+sh),(0,0,255),2)
+
+        search_key = 'l' + camid
+        res = [val for key, val in self.wcamarea.items() if search_key in key]
+        for darea in res :
+          sx1=int(darea[0])
+          sy1=int(darea[1])
+          sw1=int(darea[2])
+          sh1=int(darea[3])
+          if oarea == darea : 
+            cv2.rectangle(frame,(sx1,sy1),(sx1+sw1,sy1+sh1),(0,0,255),2)
+          else :
+            cv2.rectangle(frame,(sx1,sy1),(sx1+sw1,sy1+sh1),(0,255,255),2)
+
         fgMask = cv2.absdiff(frame1,frame2)
         fgMask = cv2.cvtColor(fgMask,cv2.COLOR_BGR2GRAY)
         _,thresh = cv2.threshold(fgMask,50,255,cv2.THRESH_BINARY)
@@ -119,14 +139,14 @@ class video :
             OK=True 
 
         if viewcam > 0 :        
-          cv2.imshow('cam - ' + str(cam), frame)
+          cv2.imshow('cam - ' + camid, frame)
           if cv2.waitKey(1) & 0xFF == ord('q'):
             break 
 
         if OK :
           if debug[0] == 'Y' :
              print('Cycle No - ', noc, '  Frame No - ', nof, ' Object/s Detected' )
-             break
+          break
         else :  
           if debug[0] == 'Y' :
              print('Cycle No - ', noc, '  Frame No - ', nof, ' Object/s Not Detected' )
@@ -140,11 +160,27 @@ class video :
       else :
         break
 
+    if viewcam > 0 :        
+      ret, frame = cap.read()
+      if ret : 
+        search_key = 'l' + camid
+        res = [val for key, val in self.wcamarea.items() if search_key in key]
+        for darea in res :
+          sx1=int(darea[0])
+          sy1=int(darea[1])
+          sw1=int(darea[2])
+          sh1=int(darea[3])
+          cv2.rectangle(frame,(sx1,sy1),(sx1+sw1,sy1+sh1),(0,255,255),2)
+        cv2.imshow('cam - ' + camid, frame)
+      else :
+         print ( '************* Error Reading Camera - ', cam )
+ 
     if debug[0] == 'Y' :
       print ( 'Return From Camera "', cam, '" - "', r )
+
     return r
 
- def prcssensor( self, maxt, debug, parms ):
+ def prcssensor( self, lane, maxt, debug, parms ):
    sensor = parms["sensor"]
    sensorid = parms["sensorid"]
    rdelay = parms["rdelay"]
@@ -172,11 +208,9 @@ class video :
          if l[0] == '0' :
            break
        else :
-         if debug[0] == 'Y' :
-           print ( 'Invalid Message Read From Sensor - '  + sensor )       
+         print ( 'ERROR - Invalid Message Read From Sensor - '  + sensor )       
      else :
-       if debug[0] == 'Y' :
-         print ( 'No Data Read From Sensor - '  + sensor )
+       print ( 'ERROR - No Data Read From Sensor - '  + sensorid )
 
      if ( time.time() - start_time > maxt ):
        r=1
