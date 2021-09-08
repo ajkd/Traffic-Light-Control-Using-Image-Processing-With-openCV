@@ -177,8 +177,10 @@ serial port ( for ex. COM3 ) of windows  Here desirable values for "srtm", "rtim
 #### py chkled.py COM3 2
 To check LED connected to digital pin ( for ex. 2 ) 
 
-#### py chkcam.py 0
-To check Cam connected to windows machine ( for ex. cam 0 ).Here number assign to a cam by windows and desirable values for "detectarea", "mincarea" parms of the lane entry of lane definition table can be found ( by modifying chkcam.py program )  
+#### py chkcam.py 0 chkcam.txt
+To check Cam connected to windows machine ( for ex. cam 0 ) and cam info given in the chkcam.txt file.
+Here number assign to a cam by windows and desirable values for "detectarea", "mincarea" and maxcarea parms 
+of the lane entry of lane definition table is specified in chkcam.txt file.  
 
 ### Conclusion
 - This system is s single threaded and useful to control traffic in
