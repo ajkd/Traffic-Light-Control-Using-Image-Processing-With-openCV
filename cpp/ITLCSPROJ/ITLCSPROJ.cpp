@@ -10,22 +10,7 @@
 using namespace cv;
 using namespace std;
 
-/*
-int main()
-{
 
-	string s = "#0#8,B,0,1000,10000,#\n";
-	string port = "COM3";
-	commarduino card = commarduino(&port[0], 9600, 2000);
-	int i = card.send(&s[0]);
-	if (i >= 0)
-	{
-		char incomingData[256];
-		incomingData[255] = '\0';
-		i = card.receive(incomingData);
-	}
-}
-*/
 
 int main(int argc, char** argv)
 {
@@ -33,6 +18,7 @@ int main(int argc, char** argv)
 	const string keys =
 		"{sit||System Initialization Table Id - to activate tlc system}"
 		"{cid||Cam Id ( number ) - to check Cam ( ex. 0 )}"
+		"{file||file name - to check cam capture data}"
 		"{sid||Analog pin Id ( String ) - analog pin id of the Arudino Board where analog sensor to be checked connected to  ( ex. A0 )}"
 		"{lid||Digital pin Id ( Number ) - Digital pin id of the Arudino Board where led to be checked connected to  ( ex. 2 )}"
 		"{port|COM1|port ( String ) - this is needed for arudino related checkings, Serial port ( ex. COM1 ) arudino board connected to this system}";
@@ -50,8 +36,8 @@ int main(int argc, char** argv)
 		if (parser.has("cid"))
 		{
 						chkcam cc;
-						cc.dimg(parser.get<int>("cid"));
-						cc.dimg(1);
+						string fl = parser.get<string>("file");
+						cc.dimg(parser.get<int>("cid"), &fl[0] );
 		}
 		else
 			if (parser.has("sid") || parser.has("lid"))

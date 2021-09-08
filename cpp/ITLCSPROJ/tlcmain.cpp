@@ -23,13 +23,14 @@ using namespace cv;
 map<string, json> mlx;
 map<string, arduinoiox*> mard;
 map<string,Mat> framea;
+map<string, json> camarea;
 map<string, VideoCapture*> capa;
 vector<string> vm;
 vector<string> vp;
 
 void start();
-int prcscam(int maxt, char* debug, json* parms);
-int prcssensor(int maxt, char* debug, json* parms);
+int prcscam(int lane, int maxt, char* debug, json* parms);
+int prcssensor(int lane, int maxt, char* debug, json* parms);
 void onofftl(json js);
 int getio(json* vmj, int ctmaxt);
 int getprty(json* prty);
@@ -231,26 +232,27 @@ int getprty(json* js) {
 }
 
 int getio(json* vmj, int mt) {
+	int lane = (*vmj)["lane"];
 	string type = (*vmj)["type"];
 	string debug = (*vmj)["debug"];
 	json parms = (*vmj)["parms"].get<json>();
 	int rv;
 	if (type[0] == 'c')
 	{
-		rv = prcscam(mt, &debug[0], &parms);
+		rv = prcscam(lane, mt, &debug[0], &parms);
 		if (debug[0] == 'Y')
 			cout << "Cam Output - " << parms["camid"] << " - " << rv << endl;
 	}
 	else
 	{
-		rv = prcssensor(mt, &debug[0], &parms);
+		rv = prcssensor(lane, mt, &debug[0], &parms);
 		if (debug[0] == 'Y')
 			cout << "Sensor Output - " << parms["sensor"] << " - " << rv << endl;
 	}
 	return rv;
 }
 
-int prcscam(int maxt, char* debug, json* parms)
+int prcscam(int lane, int maxt, char* debug, json* parms)
 {
 	int cam = (*parms)["cam"].get<int>();
 	string camid = (*parms)["camid"];
@@ -275,15 +277,20 @@ int prcscam(int maxt, char* debug, json* parms)
 	{
  	  cap = capa.find("cap" + camid)->second;
 	  frame1 = framea.find("frame" + camid)->second;
+	  map<string, json>::iterator it1;
+	  it1 = camarea.find(camid + "#" + to_string(lane));
+	  if (it1 == camarea.end())
+	    camarea[ camid + "#" + to_string(lane)] = arc;
     }
 	else
 	{
 	  cap = new VideoCapture(cam);
-	  capa["cap" + camid] = cap;
 	  if (cap->isOpened())
 	  {
  	    cap->read(frame1);
+		capa["cap" + camid] = cap;
 		framea["frame" + camid] = frame1;
+		camarea[ camid + "#" + to_string(lane)] = arc;
 	  }
 	  else
 	  {
@@ -315,16 +322,35 @@ int prcscam(int maxt, char* debug, json* parms)
 
 			Mat src, fgMask, thresh;
 			cap->read(src);
-			++nof;
 			Mat frame2 = src.clone();
 			cv::absdiff(frame1, frame2, fgMask);
 			cv::cvtColor(fgMask, fgMask, cv::COLOR_BGR2GRAY);
 			cv::threshold(fgMask, thresh, 50, 255, cv::THRESH_BINARY);
-			cv::rectangle(src,
-				Point(sx, sy),
-				Point(sx + sw, sy + sh),
-				Scalar(0, 255, 255),
-				2);
+
+			++nof;
+			
+			map <string, json> ::iterator itr;
+			for (itr = camarea.begin(); itr != camarea.end(); ++itr)
+			{
+				string kv = itr->first;
+				size_t found = kv.find("#");
+				if (camid == kv.substr(0, found))
+				{
+			      json arc1 = (json)itr->second;
+			      int sx1 = arc1[0];
+			      int sy1 = arc1[1];
+			      int sw1 = arc1[2];
+			      int sh1 = arc1[3];
+				  if ( arc == arc1 )
+					  cv::rectangle(src, Point(sx1, sy1),
+						  Point(sx1 + sw1, sy1 + sh1), Scalar(0, 0, 255), 2);
+				  else
+					  cv::rectangle(src, Point(sx1, sy1),
+						  Point(sx1 + sw1, sy1 + sh1), Scalar(0, 255, 255), 2);
+		        }
+			}
+
+		
 			vector<vector<Point> > conts;
 			cv::findContours(thresh, conts, cv::RETR_LIST, cv::CHAIN_APPROX_SIMPLE);
 			for (size_t i = 0; i < conts.size(); i++)
@@ -335,21 +361,22 @@ int prcscam(int maxt, char* debug, json* parms)
 				Rect r = cv::boundingRect(conts[i]);
 				bool OOK = false;
 				if ((r.x > sx) && ((r.x + r.width) < (sx + sw)))
-					OOK = true;
-
-				if (OOK)
 				{
-					OOK = false;
-					if ((r.y > sy) && (r.y < (sy + sh)))
+					if
+						((r.y > sy) && (r.y < (sy + sh)))
 						OOK = true;
 					else
 						if ((r.y < sy) && ((r.y + r.height) > sy))
 							OOK = true;
-				}
-				if (OOK)
+			    }
+
+  				if (OOK)
 				{
 					cv::rectangle(src, Point(r.x, r.y),
 						Point(r.x + r.width, r.y + r.height), Scalar(0, 255, 0), 2);
+					cv::rectangle(src, Point(r.x, r.y), Point(r.x + r.width, r.y + r.height),
+						Scalar(0, 255, 0), 2);
+
 					OK = true;
 
 				}
@@ -387,10 +414,34 @@ int prcscam(int maxt, char* debug, json* parms)
 	 	  break;
 		
 	}
+
+	if (viewcam > 0)
+	{
+		Mat src;
+    	cap->read(src);
+	    map <string, json> ::iterator itr;
+	    for (itr = camarea.begin(); itr != camarea.end(); ++itr)
+	    {
+		   string kv = itr->first;
+		   size_t found = kv.find("#");
+		   if (camid == kv.substr(0, found))
+		   {
+			 json arc1 = (json)itr->second;
+			 int sx1 = arc1[0];
+			 int sy1 = arc1[1];
+			 int sw1 = arc1[2];
+			 int sh1 = arc1[3];
+		     cv::rectangle(src, Point(sx1, sy1),
+					Point(sx1 + sw1, sy1 + sh1), Scalar(0, 255, 255), 2);
+		   }
+	    }
+		cv::imshow("CAM" + camid, src);
+	}
+
 	return r;
 }
 
-int prcssensor(int maxt, char* debug, json* parms)
+int prcssensor(int lane, int maxt, char* debug, json* parms)
 {
 	string sensor = (*parms)["sensor"];
 	string sensorid = (*parms)["sensorid"];
