@@ -16,7 +16,7 @@ To control traffic lights efficiently based on traffic congestion.
 ### Working Model
  - Application written in Python and c++ ( refer readme.md at cpp folder for more info about c++ ) and  runs in windows environment
  - Vehicle present in lanes is detected by sensors and web cams
- - Sensors are connected to Arduino board and Arduino board
+ - Sensors if used detect traffic, must be connected to Arduino board and Arduino board
    connected to application windows machine via serial port. Application
    will communicate with application running in Arduino to read sensor
    data. Application will determine presence of traffic by received values
@@ -24,7 +24,7 @@ To control traffic lights efficiently based on traffic congestion.
  - Web cams are directly  connected to windows machine and images of
    vehicle movements on lanes are detected and processed by
    Python/OpenCV
- - LEDs are used as traffic lights which are connected to Arduino board
+ - Virtual Traffic Lights or if LEDs are used as traffic lights they must be connected to Arduino board
    and application communicates with Arduino to on/off LEDs 
 
 ### Requirements
@@ -34,7 +34,7 @@ To control traffic lights efficiently based on traffic congestion.
    - OpenCV 4.5.2
    - PySerial 3.5  
    - Web Cams  
-   - Arduino components  
+   - Arduino components if using  
         - Arduino GUI 1.8.15  
         - Arduino UNO board  
         - TCRT 5000 reflective optical IR sensors  
@@ -47,6 +47,7 @@ To control traffic lights efficiently based on traffic congestion.
      System Initialization Table is passed as first parameter 
      - sit1.txt -- demonstrate 4 lane traffic
      - sit2.txt -- demonstrate 3 lane trrafic with pedestrian crossing
+     - sit3.txt -- demonstrate 3 lane traffic with pedestrian crossing with virtual traffic lights which use no arduino components
 - before starting the application
    - tfrcntl.ino Arduino file under “tfrcntl” folder must be uploaded to
      Arduino board using Arduino GUI
@@ -65,9 +66,9 @@ This is the main table (sit1.tx) which specifies information of other tables
     "comps":{"c1":["COM3",9600,5,2]}  
     }  
     videom - Lane Definition Table which defines sensor and web cam information  
-    videop - Priority Assign Table which is used assign more time to when high congetsion occurs in lanes  
+    videop - Priority Assign Table which is used assign more time to when high congetsion occurs in lanes  ( Optional )
     tlc    - Traffic Light Control table where traffic lights data are specified  
-    comps  - Arduino board info  
+    comps  - Arduino board info ( Optional )  
            c1   - board id, there can be more than one board connecting sensors and LEDs  
            COM3 - is the port this board connects to application running machine  
            9600 - baud rate, data transfer rate of application running machine serial port and Arduino board  
@@ -161,10 +162,14 @@ This is the main table (sit1.tx) which specifies information of other tables
     
     { "lane":99,  
       "red":[ ["c1", [2,"O",0], [5,"O",0], [8,"O",0], [11,"O",0] ] ]  
+      "vtlid":[  [1, ["R-2","Y-3","G-4"] ], [2, ["R-5","Y-6","G-7"] ], [3, ["R-8","G-10"] ] ]
+
     }  
     lane '99' is a special lane, which is used by the system to set all red lights of lanes to "On"  
     when system is start up. Here red LEDs of lanes are connected to  digital pins 2, 5, 8 and 11 of Arudino  
     board
+    'vtlid' is optional and required if virtual traffic light system is used
+    [ 1,["R-2","Y-3","G-4"] ]  - lane 1 has three lights with id 2, 3 and 4. Light 2 is Red, Light 3 is Yellow and light 4 is Green.
     
     
 ### Test System
