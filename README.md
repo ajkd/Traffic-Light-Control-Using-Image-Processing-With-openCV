@@ -16,7 +16,7 @@ To control traffic lights efficiently based on traffic congestion.
 ### Working Model
  - Application written in Python and c++ ( refer readme.md at cpp folder for more info about c++ ) and  runs in windows environment
  - Vehicle present in lanes is detected by sensors and web cams
- - Sensors if used detect traffic, must be connected to Arduino board and Arduino board
+ - Sensors if used to detect traffic, must be connected to Arduino board and Arduino board
    connected to application windows machine via serial port. Application
    will communicate with application running in Arduino to read sensor
    data. Application will determine presence of traffic by received values
@@ -48,7 +48,7 @@ To control traffic lights efficiently based on traffic congestion.
      - sit1.txt -- demonstrate 4 lane traffic
      - sit2.txt -- demonstrate 3 lane trrafic with pedestrian crossing
      - sit3.txt -- demonstrate 3 lane traffic with pedestrian crossing with virtual traffic lights which use no arduino components
-- before starting the application
+- before starting the application if arduino components are used
    - tfrcntl.ino Arduino file under “tfrcntl” folder must be uploaded to
      Arduino board using Arduino GUI
    - All sensors, web cams and LEDs must be checked
