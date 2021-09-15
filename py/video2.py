@@ -1,26 +1,48 @@
 import cv2 as cv2
+import numpy as np
 import time
 import json
 import serial
 import time
 
+t_width = 30;
+t_height = 30;
+t_space = 50;
+t_x = 0;
+t_y = 15;
+t_r = 10;
+max_items = 5;
+df = (0, 0, 0)
+wbg = (220,220,220)
+tbg = (128,128,128)
+off = (169, 169, 169)
+lc = { 'R':(0,0,255), 'Y':(0,255,255), 'G':(0,128,0) } 
+
+
 class video :
 
  def __init__( self, cr ) : 
+
      self.myd = {}
      self.wcam = {}
      self.wcamarea = {}
 
-     x=cr["comps"]
-     for k,v in x.items() :
-       port= v[0]
-       speed = int(v[1])
-       to = int(v[2])
-       sl = int(v[3])  
-       self.myd[k]=serial.Serial(port,speed,timeout=to)
-       time.sleep(sl)
+     self.tmap = {}
+     self.image = 0
 
- def onofftl(self,p):
+     try :
+       x=cr["comps"]
+       for k,v in x.items() :
+         port= v[0]
+         speed = int(v[1])
+         to = int(v[2])
+         sl = int(v[3])  
+         self.myd[k]=serial.Serial(port,speed,timeout=to)
+         time.sleep(sl)
+     except KeyError :
+         pass
+
+ def onofftl(self, p):
    i=0
    while i < len(p) :
      ard = self.myd[p[i][0]]
@@ -219,5 +241,97 @@ class video :
      print ( 'Return From Sensor "', sensor, '" - "', r )
    return r
  
+ def createtl(self, tlr):
+   o = ''
+   l = len(tlr) * t_width * 3 + t_space * (len(tlr) + 1)
+   self.image = np.zeros(( t_height * 2, l,3), np.uint8 )
+   self.image[:,:] = wbg
+   x = t_x
+   for js in tlr :
+     i = 0
+     x += t_space
+     cv2.putText(
+          self.image,
+          'Lane - ' + str(js[0]),
+          (x, t_y - 5),
+          cv2.FONT_HERSHEY_COMPLEX_SMALL,
+          .6,
+          (0, 0, 0), 1,
+          cv2.LINE_AA, False)
+     while (i < len(js[1])) :
+       cv2.rectangle(self.image, (x, t_y), (x + t_width, t_y + t_height), tbg, -1)
+       cv2.circle(self.image, (int(x + t_width / 2), int(t_y + t_height / 2)), t_r, off, -1, 2)
+       lidr = js[1][i]
+       ix = lidr.find('-')
+       tlc = lidr[0:ix]
+       ix+=1
+       tlid = lidr[ix:len(lidr)]
+       self.tmap['x#' + tlid] = int(x + t_width / 2)
+       self.tmap['y#' + tlid] = int(t_y + t_height / 2)
+       self.tmap['c#' + tlid] = tlc
+       x += t_width
+       i+=1
+   cv2.imshow('Traffic Light Display Window', self.image)
+   if cv2.waitKey(1) & 0xFF == ord('q'):
+     return o
+   return o
 
-
+ def onoff(self, p) :
+   o = ''  
+   i=0
+   while i < len(p) :
+     j=1 
+     while j < len(p[i]) :
+        o = o + self.onoffl(p[i][j])
+        j+=1 
+     i +=1
+   return o
+ 
+ def onoffl(self, tlr) :
+       o = ''
+       j = 0
+       s = ['']* max_items
+       for el1 in tlr :
+         if j == 1 :
+           s[j] = tlr[j]
+         else :
+           s[j] = int(tlr[j])
+         j+=1
+       sx = 'x#' + str(s[0])
+       sy = 'y#' + str(s[0])
+       if (s[1][0] == 'O') :
+           sc = self.tmap['c#' + str(s[0])]
+           cv2.circle(self.image, ( self.tmap[sx], self.tmap[sy] ), t_r, lc[sc], -1, 2)
+           cv2.imshow('Traffic Light Display Window', self.image)
+           if cv2.waitKey(1) & 0xFF == ord('q'):
+              return o 
+           time.sleep(int(s[2])/1000)
+       else : 
+           if (s[1][0] == 'F') :
+             cv2.circle(self.image, ( self.tmap[sx], self.tmap[sy] ), t_r, off, -1, 2)
+             cv2.imshow('Traffic Light Display Window', self.image)
+             if cv2.waitKey(1) & 0xFF == ord('q'):
+               return o 
+             time.sleep(int(s[2])/1000)
+           else :
+             if (s[1][0] == 'B') :
+               st1 = time.time()
+               sc = self.tmap["c#" + str(s[0])]
+               while (True) :
+                 cv2.circle(self.image, ( self.tmap[sx], self.tmap[sy] ), t_r, lc[sc], -1, 2)
+                 cv2. imshow("Traffic Light Display Window", self.image)
+                 if cv2.waitKey(1) & 0xFF == ord('q'):
+                   return o 
+                 time.sleep(int(s[3])/1000)
+                 cv2.circle(self.image, ( self.tmap[sx], self.tmap[sy] ), t_r, off, -1, 2)
+                 cv2.imshow('Traffic Light Display Window', self.image)
+                 if cv2.waitKey(1) & 0xFF == ord('q'):
+                   return o 
+                 time.sleep(int(s[3])/1000)
+                 st3 = time.time()
+                 if ( (st3 - st1) * 1000 > s[4] ) :
+                   return o
+                 time.sleep(int(s[2]))
+             else :
+               o = '#Invalid Function Code'
+       return o
