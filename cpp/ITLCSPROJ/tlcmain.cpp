@@ -8,6 +8,7 @@
 #include "string"
 #include "tlcmain.h"
 #include "arduinoiox.h"
+#include "vitlcs.h"
 #include <map>
 using namespace std;
 #include "nlohmann/json.hpp"
@@ -27,6 +28,9 @@ map<string, json> camarea;
 map<string, VideoCapture*> capa;
 vector<string> vm;
 vector<string> vp;
+vitlcs vt;
+int vtl = 0;
+boolean prty_def = false;
 
 void start();
 int prcscam(int lane, int maxt, char* debug, json* parms);
@@ -40,53 +44,76 @@ tlcmain::~tlcmain() {};
 
 void tlcmain::prcs(char* sit) {
 
+	json jsit;
 	ifstream insit(sit);
-	if (!insit)
+	if (insit)
+	{
+
+		insit >> jsit;
+		insit.close();
+	}
+	else
 	{
 		cout << "ERROR - Cannot open the File : " << sit << endl;
 		exit(EXIT_FAILURE);
 	}
-	json jsit;
-	insit >> jsit;
-	insit.close();
+
 
 	string vmfn = jsit["videom"];
 	ifstream invm(vmfn.c_str());
-	if (!invm)
+	if (invm)
+	{
+		string str;
+		while (getline(invm, str))
+		{
+			if (str.size() > 0)
+				vm.push_back(str);
+		}
+ 	    invm.close();
+    }
+	else
 	{
 		cout << "ERROR - Cannot open the File : " << vmfn << endl;
 		exit(EXIT_FAILURE);
 	}
-	string str;
-	while (getline(invm, str)) {
-		if (str.size() > 0)
-			vm.push_back(str);
-	}
-	invm.close();
 
-	string vpfn = jsit["videop"];
-	ifstream invp(vpfn.c_str());
-	if (!invp)
-	{
-		cout << "ERROR - Cannot open the File : " << vpfn << endl;
-		exit(EXIT_FAILURE);
-	}
-	while (getline(invp, str))
-	{
-		if (str.size() > 0)
-			vp.push_back(str);
-	}
-	invp.close();
 
-	json arc = jsit["comps"];
-	for (auto& el : arc.items())
+	ifstream invp;
+	if (jsit.find("videop") != jsit.end())
 	{
-		string port = el.value()[0];
-		int br = el.value()[1];
-		int to = el.value()[2]*1000;
-		int slt = el.value()[3]*1000;
-		arduinoiox* ardx = new arduinoiox(&port[0], br, to, slt);
-		mard[ el.key()] = ardx;
+		string vpfn = jsit["videop"];
+	    invp.open(vpfn.c_str());
+		if (invp)
+		{
+			prty_def = true;
+			string str;
+			while (getline(invp, str))
+			{
+				if (str.size() > 0)
+					vp.push_back(str);
+			}
+			invp.close();
+		}
+		else
+		{
+  		   cout << "ERROR - Cannot open the File : " << vpfn << endl;
+		   exit(EXIT_FAILURE);
+	    }
+	    
+    }
+
+	if (jsit.find("comps") != jsit.end())
+	{
+		json arc = jsit["comps"];
+		for (auto& el : arc.items())
+		{
+			string port = el.value()[0];
+			int br = el.value()[1];
+			int to = el.value()[2] * 1000;
+			int slt = el.value()[3] * 1000;
+			arduinoiox* ardx = new arduinoiox(&port[0], br, to, slt);
+			mard[el.key()] = ardx;
+		}
 	}
 
 	string tlcfn = jsit["tlc"];
@@ -103,10 +130,22 @@ void tlcmain::prcs(char* sit) {
 		string lane = (*it)["lane"].dump();
 		if (lane.compare("99") == 0)
 		{
-			for (auto& el : (*it)["red"].items()) {
-				json js = el.value();
-				onofftl(js);
+			if ((*it).find("vtlid") != (*it).end())
+			{
+				vtl = 1;
+				json itms = (*it)["vtlid"];
+				vt.createtl(itms);
 			}
+			
+			for (auto& el : (*it)["red"].items())
+			{
+					json js = el.value();
+					if (vtl == 1)
+						vt.onoff(js);
+					else
+						onofftl(js);
+			}
+			
 		}
 		else
 		{
@@ -121,6 +160,7 @@ void tlcmain::prcs(char* sit) {
 
 void start()
 {
+
 	map<string, int> skip;
 	skip["dummy"] = 0;
 
@@ -149,16 +189,20 @@ void start()
 			json js = mlx["lg" + to_string(lane)];
 			for (auto& el : js.items()) {
 				json js1 = el.value();
-				onofftl(js1);
+				if (vtl == 1)
+				  vt.onoff(js1);
+				else
+				  onofftl(js1);
 			}
+			
 			int j = 0;
 			while (true) {
 				int mt = vmj["maxt"].get<int>();
-				try {
+				if ( prty_def && (vmj.find("prtyid") != vmj.end()) )
+				{
 					json prty = vmj["prtyid"];
 					mt = mt + getprty(&prty);
 				}
-				catch (const exception& e) {}
 				if (getio(&vmj, mt) > 0) {
 					j = i + 1;
 					if (j == vm.size())
@@ -169,7 +213,10 @@ void start()
 						if (getio(&vmj1, 0) > 0) {
 							json js = mlx["lr" + to_string(lane)];
 							for (auto& el : js.items()) {
-								json js1 = el.value();
+							  json js1 = el.value();
+							  if (vtl == 1)
+								vt.onoff(js1);
+							  else
 								onofftl(js1);
 							}
 							i = j;
@@ -191,9 +238,13 @@ void start()
 				else
 				{
 					json js = mlx["lr" + to_string(lane)];
-					for (auto& el : js.items()) {
+					for (auto& el : js.items()) 
+					{
 						json js1 = el.value();
-						onofftl(js1);
+						if (vtl == 1)
+							vt.onoff(js1);
+						else
+							onofftl(js1);
 					}
 					i++;
 					break;
@@ -383,7 +434,7 @@ int prcscam(int lane, int maxt, char* debug, json* parms)
 			}
 			if (viewcam > 0)
 			{
-				cv::imshow("CAM" + camid, src);
+				cv::imshow("CAM - " + camid, src);
 				if (waitKey(30) >= 0)
 					break;
 			}
@@ -435,7 +486,7 @@ int prcscam(int lane, int maxt, char* debug, json* parms)
 					Point(sx1 + sw1, sy1 + sh1), Scalar(0, 255, 255), 2);
 		   }
 	    }
-		cv::imshow("CAM" + camid, src);
+		cv::imshow("CAM - " + camid, src);
 	}
 
 	return r;
