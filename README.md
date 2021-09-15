@@ -51,7 +51,8 @@ To control traffic lights efficiently based on traffic congestion.
 - before starting the application if arduino components are used
    - tfrcntl.ino Arduino file under “tfrcntl” folder must be uploaded to
      Arduino board using Arduino GUI
-   - All sensors, web cams and LEDs must be checked
+   - All sensors and LEDs must be checked
+ - All web cams must be checked
 
 ### System Tables
 Configuration information is given to application using tables
