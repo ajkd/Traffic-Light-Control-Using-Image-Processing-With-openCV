@@ -47,7 +47,7 @@ To control traffic lights efficiently based on traffic congestion.
      System Initialization Table is passed as first parameter 
      - sit1.txt -- demonstrate 4 lane traffic
      - sit2.txt -- demonstrate 3 lane trrafic with pedestrian crossing
-     - sit3.txt -- demonstrate 3 lane traffic with pedestrian crossing with virtual traffic lights which use no arduino components
+     - sit3.txt -- demonstrate 3 lane traffic with pedestrian crossing with virtual traffic lights which use no arduino components and                      use web cams to detect traffic.
 - before starting the application if arduino components are used
    - tfrcntl.ino Arduino file under “tfrcntl” folder must be uploaded to
      Arduino board using Arduino GUI
