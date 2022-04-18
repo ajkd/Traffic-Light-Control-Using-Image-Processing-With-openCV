@@ -112,11 +112,12 @@ This is the main table (sit1.tx) which specifies information of other tables
               camtype    - Not relevant  
               rotate     - rotate frame ( not available to c++ module )
                            this to get lanes verticle 
-                           for example rotate = "-55" rortate frame anti clock wise 55 degrees 
-                           This new feature added to deploy a single cam and monitor all the lanes
-                           refer how to check cam section below 
-                <img src="imagex1.png" alt="Without Rotating" width="340" height="180" border="10" />           
-                <img src="imagex2.png" alt="Rotating -55" width="340" height="180" border="10" />           
+                           for example rotate = "-55" rortate frame clock wise 55 degrees 
+                           This feature added to deploy a single cam and monitor all the lanes
+                           refer check cam section below. When lane is processed lane boundaries must
+                           be in verticle position to get detection process succsess
+![frame without rotating](imagex1.png)           
+![frame rortaing 55 degrees clock wise](imagex2.png)           
                            
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
