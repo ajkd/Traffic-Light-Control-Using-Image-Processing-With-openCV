@@ -80,6 +80,7 @@ class video :
     oarea=parms["detectarea"]
     mincarea = int(parms["mincarea"]) 
     maxcarea = int(parms["maxcarea"]) 
+    rot = int(parms["rotate"]) 
 
     sx=int(oarea[0])
     sy=int(oarea[1])
@@ -95,6 +96,10 @@ class video :
     try : 
       cap = self.wcam['cap' + camid]
       frame1 = self.wcam['frame' + camid]
+      if ( rot != 0 ) :
+        (rows, cols) = frame1.shape[:2]
+        M = cv2.getRotationMatrix2D(((cols-1)//2.0, (rows-1)//2.0), int(rot), 1.0)
+        frame1 = cv2.warpAffine(frame1, M, (cols, rows))
       try :
         darea = self.wcamarea[ 'l' + camid + str(lane) ]
       except KeyError :
@@ -107,11 +112,13 @@ class video :
         cv2.destroyAllWindows()
         print ( 'ERROR - Reading Camera - ', camid )
         return r
+      if ( rot != 0 ) :
+        (rows, cols) = frame1.shape[:2]
+        M = cv2.getRotationMatrix2D(((cols-1)//2.0, (rows-1)//2.0), int(rot), 1.0)
+        frame1 = cv2.warpAffine(frame1, M, (cols, rows))
       self.wcam['cap' + camid] = cap
       self.wcam[ 'frame' + camid ] = frame1
       self.wcamarea['l' + camid + str(lane) ] = oarea
-
-    
    
     while cap.isOpened()  :
       start_time1 = time.time()
@@ -123,6 +130,11 @@ class video :
         if not ret : 
           print ( '************* Error Reading Camera - ', cam )
           break
+
+        if ( rot != 0 ) :
+          (rows, cols) = frame2.shape[:2]
+          M = cv2.getRotationMatrix2D(((cols-1)//2.0, (rows-1)//2.0), int(rot), 1.0)
+          frame2 = cv2.warpAffine(frame2, M, (cols, rows))
 
         nof += 1
         frame = frame2.copy()
@@ -196,7 +208,8 @@ class video :
         cv2.imshow('cam - ' + camid, frame)
       else :
          print ( '************* Error Reading Camera - ', cam )
- 
+
+
     if debug[0] == 'Y' :
       print ( 'Return From Camera "', cam, '" - "', r )
 
