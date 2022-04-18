@@ -110,6 +110,14 @@ This is the main table (sit1.tx) which specifies information of other tables
                            If cam is used to monitor more than one lane same id must be specified when that lane's
                            entry in the lane definition table
               camtype    - Not relevant  
+              rotate     - rotate frame ( not available to c++ module )
+                           this to get lanes verticle 
+                           for example rotate = "-55" rortate frame anti clock wise 55 degrees 
+                           This new feature added to deploy a single cam and monitor all the lanes
+                           refer how to check cam section below 
+                <img src="imagex1.png" alt="Without Rotating" width="340" height="180" border="10" />           
+                <img src="imagex2.png" alt="Rotating -55" width="340" height="180" border="10" />           
+                           
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
                            application should detect vehicles  
@@ -183,10 +191,16 @@ serial port ( for ex. COM3 ) of windows  Here desirable values for "srtm", "rtim
 #### py chkled.py COM3 2
 To check LED connected to digital pin ( for ex. 2 ) 
 
-#### py chkcam.py 0 chkcam.txt
-To check Cam connected to windows machine ( for ex. cam 0 ) and cam info given in the chkcam.txt file.
-Here number assign to a cam by windows and desirable values for "detectarea", "mincarea" and maxcarea parms 
-of the lane entry of lane definition table is specified in chkcam.txt file.  
+#### py chkcam.py 0 -55 
+to determine desirable values for "detectarea", "mincarea" and "maxcarea" parms of the lane entry 
+of lane definition table 0 - cam id, -55 - rortate frame anti clockwise 55 degrees to get lanes verticle
+Click on the picture and drag and unclick the x, y w, h values will be displayed which should be put to "detectarea"
+(this feature not available to c++ where cam is checked using chkcam 0 )
+#### py chkcam.py 0 -55 chkcam.txt
+After finding the detectare value put To thos values to chcam.txt 
+and check objects inside the rectagle are are detected
+This way each lane must be tested to determine values for "detectarea"
+(for c++ chkcam 0 chkcam.txt )
 
 ### Conclusion
 - This system is s single threaded and useful to control traffic in
