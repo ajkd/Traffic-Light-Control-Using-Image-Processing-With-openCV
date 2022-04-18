@@ -1,3 +1,3 @@
-{"lane":1, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":0, "camid":"cam2", "camtype":" ", "detectarea":[325,75,150,175], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
-{"lane":2, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":1, "camid":"cam1", "camtype":" ", "detectarea":[325,100,250,275], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
-{"lane":3, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":0, "camid":"cam2", "camtype":" ", "detectarea":[90,290,425,130], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
+{"lane":1, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":0, "camid":"cam2", "camtype":" ", "rotate":"0", "detectarea":[325,75,150,175], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
+{"lane":2, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":1, "camid":"cam1", "camtype":" ", "rotate":"0", "detectarea":[325,100,250,275], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
+{"lane":3, "type":"c", "maxt":5, "skipc":0, "debug":"Y", "parms": { "cam":0, "camid":"cam2", "camtype":" ", "rotate":"0", "detectarea":[90,290,425,130], "mincarea":1500, "maxcarea":20000, "rdelay":0.1, "rtime":1, "viewcam":1 } }
