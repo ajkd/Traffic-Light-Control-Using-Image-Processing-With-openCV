@@ -99,13 +99,16 @@ args = parser.parse_args()
 
 with open( args.sit, 'r' ) as f :
   cr=json.load(f)
+print( 'sit Successfuly Opened - ', args.sit )
 
 
 with open( cr["tlc"], 'r' ) as f :
   tlc=json.load(f)
+print( 'tlc Successfully Opened - ', cr["tlc"] )
 
 v = video(cr)
 
+print( 'Processing tlc records' )
 ld = {}
 for item in tlc:
   lane = item.get("lane")
@@ -125,12 +128,14 @@ for item in tlc:
 
 with open( cr["videom"], 'r' ) as f :
   fr=list(f)
+print( 'videom Successfully Opened - ', cr["videom"] )
   
 frl = {}
 try :
   with open( cr["videop"], 'r' ) as f :
     fr1=list(f)
     pr = True;
+    print( 'videop Successfully Opened - ', cr["videop"] )
 except KeyError :
   pass
 
