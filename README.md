@@ -116,8 +116,8 @@ This is the main table (sit1.tx) which specifies information of other tables
                            This feature added to deploy a single cam and monitor all the lanes
                            refer check cam section below. When lane is processed lane boundaries must
                            be in verticle position to get detection process succsess
-![frame without rotating](imagex1.png)           
-![frame rortaing 55 degrees clock wise](imagex2.png)           
+![frame without rotating](imagex1.png)  Lane detected by cam           
+![frame rortaing 55 degrees clock wise](imagex2.png)   Lane processed by the application after rotating 55 degrees clockwise        
                            
               detectarea - To determine traffic is presence, vehicle must be presence in this area of  
                            the lane. This is the coordinates ( x, y,width,height ) of cam view area  
