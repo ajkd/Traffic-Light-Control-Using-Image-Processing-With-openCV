@@ -194,12 +194,13 @@ To check LED connected to digital pin ( for ex. 2 )
 
 #### py chkcam.py 0 -55 
 to determine desirable values for "detectarea", "mincarea" and "maxcarea" parms of the lane entry 
-of lane definition table 0 - cam id, -55 - rortate frame anti clockwise 55 degrees to get lanes verticle
-Click on the picture and drag and unclick the x, y w, h values will be displayed which should be put to "detectarea"
+of lane definition table 0 - cam id, -55 - rortate frame clockwise 55 degrees to get lanes verticle
+Click on the picture and drag to make rectangle and unclick the x, y w, h values will be displayed which should be put to "detectarea"
 (this feature not available to c++ where cam is checked using chkcam 0 )
 #### py chkcam.py 0 -55 chkcam.txt
-After finding the detectare value put To thos values to chcam.txt 
-and check objects inside the rectagle are are detected
+After finding the detectarea value put those values to chcam.txt 
+and check objects inside the rectagle are detected ajust mincare and maxcarea values
+which are the max and min size of the objects
 This way each lane must be tested to determine values for "detectarea"
 (for c++ chkcam 0 chkcam.txt )
 
