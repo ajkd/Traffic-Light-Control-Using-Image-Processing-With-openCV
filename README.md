@@ -200,10 +200,10 @@ This way each lane must be tested to determine values for "detectarea"
 - run py chkcam.py 0 0  -> cam id - 0    rotate - 0
 - double click on the image, verticle line will appear and determine approximatley how much degrees frame should be rotated clock wise or anti clock wise
   for the lane boundaries to become verticle
-- run py chkcam.py 0 n where n is +/- degrees frame should rotate. click on the top right corner of the lane where object detection area should begin
-  and drag the mouse to left bottom corner making a rectangle and unclick the mouse. detection area corrdinates will be displayed on the command prompt.
-- put those figures in the chkcam.txt file run py chkcam.py 0 n chkcam.txt. lane detection area rectangle will be displayed on the image and move a 
-  object to that are and check objects are detected by the system. determine the values for mincarea and maxcarea
+- run py chkcam.py 0 n where n is +/- degrees frame should be rotated. click on the top right corner of the lane where object detection area should begin
+  and drag the mouse to left bottom corner making a rectangle and unclick the mouse. detection area coordinates will be displayed on the command prompt.
+- put those figures in the chkcam.txt file run py chkcam.py 0 n chkcam.txt. Lane detection area rectangle will be displayed on the image. Move a 
+  object to that area and check if objects are detected. Determine the values for mincarea and maxcarea.
   #### unrotated frame
  ![frame without rotating](imagex1.png) 
  
