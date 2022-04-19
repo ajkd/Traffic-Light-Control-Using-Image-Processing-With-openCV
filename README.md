@@ -198,7 +198,7 @@ which are the max and min size of the objects
 This way each lane must be tested to determine values for "detectarea"
 (for c++ chkcam 0 chkcam.txt )
 - run py chkcam.py 0 0  -> cam id - 0    rotate - 0
-- double click on the image, verticle line will appear and determine approximatley how much degerees frame should be rotated clock wise or anti clock wise
+- double click on the image, verticle line will appear and determine approximatley how much degrees frame should be rotated clock wise or anti clock wise
   for the lane boundaries to become verticle
 - run py chkcam.py 0 n where n is +/- degrees frame should rotate. click on the top right corner of the lane where object detection area should begin
   and drag the mouse to left bottom corner making a rectangle and unclick the mouse. detection area corrdinates will be displayed on the command prompt.
