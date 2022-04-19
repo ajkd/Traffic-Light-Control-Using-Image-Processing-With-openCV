@@ -204,9 +204,12 @@ This way each lane must be tested to determine values for "detectarea"
   and drag the mouse to left bottom corner making a rectangle and unclick the mouse. detection area corrdinates will be displayed on the command prompt.
 - put those figures in the chkcam.txt file run py chkcam.py 0 n chkcam.txt. lane detection area rectangle will be displayed on the image and move a 
   object to that are and check objects are detected by the system. determine the values for mincarea and maxcarea
-  
- ![frame without rotating](imagex1.png)             ![frame rortaing 55 degrees clock wise](imagex2.png)           
-    un rotated frame                        after rotating 55 degrees clockwise        
+  #### unrotated frame
+ ![frame without rotating](imagex1.png) 
+ 
+ #### after rotating 55 degrees clockwise
+ ![frame rortaing 55 degrees clock wise](imagex2.png)           
+                                   
 
 ### Conclusion
 - This system is s single threaded and useful to control traffic in
