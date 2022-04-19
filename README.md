@@ -80,7 +80,7 @@ This is the main table (sit1.tx) which specifies information of other tables
       { "lane":1, "type":"s", "prtyid":["lane1-1"], "maxt":5, "skipc":0, "debug":"Y",  
         "parms": { "sensor":"A0 "comport":"c1", "sensorid":"s1", "rdelay":1, "rtime":200, "srtm":150 } },  
       { "lane":2, "type":"c", "maxt":5, "skipc":0, "debug":"Y",  
-        "parms": { "cam":0, "camid":"cam1", "camtype":" ", "detectarea":[360,230,200,250],  
+        "parms": { "cam":0, "camid":"cam1", "camtype":" ", "detectarea":[360,230,200,250],  "rotate":"-50",
         "mincarea":1500, "rdelay":0.1, "rtime":1, "viewcam":1 } }  
              
       lane   - lane id  
