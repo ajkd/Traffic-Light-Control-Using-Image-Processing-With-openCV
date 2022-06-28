@@ -113,11 +113,10 @@ ld = {}
 for item in tlc:
   lane = item.get("lane")
   if lane == 99 :
-     try :
-      v.createtl(item.get("vtlid"))
-      vtl = True
-     except KeyError :
-       pass
+     vtlid = item.get("vtlid",{})
+     if ( vtlid ) :
+        v.createtl(str(vtlid))
+        vtl = True
      if vtl :
        v.onoff(item.get("red"))
      else : 
