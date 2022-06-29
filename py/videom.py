@@ -115,7 +115,7 @@ for item in tlc:
   if lane == 99 :
      vtlid = item.get("vtlid",{})
      if ( vtlid ) :
-        v.createtl(str(vtlid))
+        v.createtl(vtlid)
         vtl = True
      if vtl :
        v.onoff(item.get("red"))
