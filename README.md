@@ -77,7 +77,7 @@ This is the main table (sit1.tx) which specifies information of other tables
            2    - wait time to connect with Arduino ( milliseconds )  
 #### Lane Definition Table
 
-      { "lane":1, "type":"s", "prtyid":["lane1-1"], "maxt":5, "skipc":0, "debug":"Y",  
+      { "lane":1, "type":"s", "prtyid":["lane1-1"], "maxt":5, "skipc":0, "debug":"Y",        
         "parms": { "sensor":"A0 "comport":"c1", "sensorid":"s1", "rdelay":1, "rtime":200, "srtm":150 } },  
       { "lane":2, "type":"c", "maxt":5, "skipc":0, "debug":"Y",  
         "parms": { "cam":0, "camid":"cam1", "camtype":" ", "detectarea":[360,230,200,250],  "rotate":"-50",
@@ -223,5 +223,34 @@ efficiency.
 
 ### Enterprise Version 
 
+Intersection Application runs under Linux environment. IP cams , sensor controllers,
+traffic light controllers, and Linux processor at edge connected together in Ethernet LAN.
+Application uses Opencv image processing features to process cam images. 
+Sensors too could be deployed to detect vehicles which will give more accurate
+results than processing images and these sensors either analog or digital must be connected to this ip network.
+One or more edges can be managed by Intersection Control Center which may be located
+far away from edges which are connected together may be using IP VPN.
+
 <a href="https://m.youtube.com/watch?v=6yCOR-hgt04" target="_blank"><img src="Image9.jpeg" alt="TRAFFIC CONTROL" width="340" height="180" border="10"/></a>
+
+- Features of Intersection Control Application running under Linux environmentb 
+    -  will detects traffic of lanes via ip cams or sensors  
+    -  lane is processed only if traffic is presented  
+        -  if more traffic is presented, detected by cams or sensors ability to allow more time to lanes  
+        -  lanes are processed in multi threaded environment.  This allows when a lane gets control, ability of that lane to allow traffic  
+           along other lanes which do not obstruct to traffic along its lane  
+    -    Traffic violation detection  
+    - Ability to deploy unlimited number of cams and sensors to detect traffic  
+    - pedestrian lane crossing handling  
+    -   Redundancy, i.e. if cam or sensor becomes non working another cam or sensor can take up detection process
+         
+- Features of Intersection Control Center client Application which runs under windows environment. Control center operator enter commands
+  and monitor traffic at edge.  
+    - monitor intersection via RTSP client such as VNC viewer which connects to GStreamer RTSP server application running at edge  
+    - start / stop / shut edge application  
+    - put the processing of lanes to manual / auto modes or close lanes  
+    - take control of traffic by on and off traffic lights by issuing commands  
+
+- Ability of deploying the system to other areas for example parking, monitoring areas, etc
+
 
