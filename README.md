@@ -233,7 +233,7 @@ far away from edges which are connected together may be using IP VPN.
 
 <a href="https://m.youtube.com/watch?v=6yCOR-hgt04" target="_blank"><img src="Image9.jpeg" alt="TRAFFIC CONTROL" width="340" height="180" border="10"/></a>
 
-- Features of Intersection Control Application running under Linux environmentb 
+- Features of Intersection Control Application running under Linux environment 
     -  will detects traffic of lanes via ip cams or sensors  
     -  lane is processed only if traffic is presented  
         -  if more traffic is presented, detected by cams or sensors ability to allow more time to lanes  
